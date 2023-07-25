@@ -16,7 +16,7 @@ namespace Source.Player
 
         private void Awake()
         {
-            _inputService = Game.InputService;
+            _inputService = Game.s_InputService;
         }
 
         private void Start()

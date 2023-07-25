@@ -1,17 +1,16 @@
 ﻿using Source.Infrastructure.Services.Input;
+using Source.Infrastructure.States;
 
 namespace Source.Infrastructure
 {
     public class Game
     {
-        public static IInputService InputService { get; private set; }
+        public static IInputService s_InputService;
+        public GameStateMachine StateMachine;
 
         public Game()
         {
-            RegisterInputService();
+            StateMachine = new GameStateMachine();
         }
-
-        private void RegisterInputService() => 
-            InputService = new MobileInputService();
     }
 }

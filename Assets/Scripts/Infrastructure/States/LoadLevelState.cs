@@ -11,12 +11,14 @@ namespace Source.Infrastructure.States
         private readonly GameStateMachine _gameStateMachine;
         private readonly LoadingScreen _loadingScreen;
         private readonly SceneLoader _sceneLoader;
-        private readonly GameFactory _gameFactory;
+        private readonly IGameFactory _gameFactory;
 
-        public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, LoadingScreen loadingScreen)
+        public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, LoadingScreen loadingScreen, 
+            IGameFactory gameFactory)
         {
             _gameStateMachine = gameStateMachine;
             _loadingScreen = loadingScreen;
+            _gameFactory = gameFactory;
             _sceneLoader = sceneLoader;
         }
 

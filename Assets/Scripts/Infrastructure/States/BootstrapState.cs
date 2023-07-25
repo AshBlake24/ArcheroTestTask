@@ -1,3 +1,6 @@
+using Source.Infrastructure.Assets;
+using Source.Infrastructure.Factories;
+using Source.Infrastructure.Services;
 using Source.Infrastructure.Services.Input;
 
 namespace Source.Infrastructure.States
@@ -8,11 +11,13 @@ namespace Source.Infrastructure.States
         
         private readonly IGameStateMachine _gameStateMachine;
         private readonly SceneLoader _sceneLoader;
+        private readonly ServiceLocator _services;
 
-        public BootstrapState(IGameStateMachine gameStateMachine, SceneLoader sceneLoader)
+        public BootstrapState(IGameStateMachine gameStateMachine, SceneLoader sceneLoader, ServiceLocator services)
         {
             _gameStateMachine = gameStateMachine;
             _sceneLoader = sceneLoader;
+            _services = services;
 
             RegisterServices();
         }
@@ -31,10 +36,13 @@ namespace Source.Infrastructure.States
 
         private void RegisterServices()
         {
-            Game.s_InputService = RegisterInputService();
+            _services.RegisterSingle<IInputService>(GetInputService());
+            _services.RegisterSingle<IAssetProvider>(new AssetProvider());
+            _services.RegisterSingle<IGameFactory>(new GameFactory(
+                _services.Single<IAssetProvider>()));
         }
 
-        private IInputService RegisterInputService() => 
+        private IInputService GetInputService() => 
             new MobileInputService();
     }
 }

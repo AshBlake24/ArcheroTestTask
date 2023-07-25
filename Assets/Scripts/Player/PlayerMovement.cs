@@ -1,6 +1,7 @@
 ﻿using System;
 using Source.Camera;
 using Source.Infrastructure;
+using Source.Infrastructure.Services;
 using Source.Infrastructure.Services.Input;
 using UnityEngine;
 
@@ -16,7 +17,7 @@ namespace Source.Player
 
         private void Awake()
         {
-            _inputService = Game.s_InputService;
+            _inputService = ServiceLocator.Container.Single<IInputService>();
         }
 
         private void Update()

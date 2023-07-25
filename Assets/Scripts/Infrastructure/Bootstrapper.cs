@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace Source.Infrastructure
 {
-    public class Bootstrapper : MonoBehaviour
+    public class Bootstrapper : MonoBehaviour, ICoroutineRunner
     {
         private Game _game;
 

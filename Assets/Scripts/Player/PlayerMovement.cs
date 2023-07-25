@@ -19,11 +19,6 @@ namespace Source.Player
             _inputService = Game.s_InputService;
         }
 
-        private void Start()
-        {
-            UnityEngine.Camera.main.GetComponent<CameraFollow>().SetTarget(transform);
-        }
-
         private void Update()
         {
             if ((_inputService.Axis.sqrMagnitude > 0.01f) == false) 

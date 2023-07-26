@@ -1,6 +1,7 @@
 ﻿using System;
 using Source.Behaviour;
 using Source.Behaviour.States;
+using Source.Behaviour.Transitions;
 using Source.Enemies.Data;
 using UnityEngine;
 using UnityEngine.AI;
@@ -29,11 +30,11 @@ namespace Source.Enemies.Factories
             var moveTowardsTarget = new MoveAgentToTarget(navMeshAgent, target, enemy.transform, enemyData.Speed);
             var idle = new IdleState();
 
-            stateMachine.AddTransition(moveTowardsTarget, idle, TargetReached);
-            stateMachine.AddAnyTransition(moveTowardsTarget, TargetTooFar);
-
-            bool TargetReached() => moveTowardsTarget.RemainingDistance < 0.3f;
-            bool TargetTooFar() => Vector3.Distance(enemy.transform.position, target.position) > 0.3f;
+            stateMachine.AddTransition(moveTowardsTarget, idle, 
+                TransitionConditions.TargetReached(moveTowardsTarget, 0.3f));
+            
+            stateMachine.AddAnyTransition(moveTowardsTarget, 
+                TransitionConditions.TargetTooFar(enemy.transform, target.transform, 0.3f));
 
             stateMachine.SetState(moveTowardsTarget);
 
@@ -51,11 +52,8 @@ namespace Source.Enemies.Factories
             DashTimer dashTimer = enemy.GetComponent<DashTimer>();
             dashTimer.Construct(enemyData.DashDuration, enemyData.DashRate);
 
-            stateMachine.AddTransition(moveTowardsTarget, dash, DashStarted);
-            stateMachine.AddTransition(dash, moveTowardsTarget, DashTimerIsOut);
-            
-            bool DashStarted() => dashTimer.IsDashing;
-            bool DashTimerIsOut() => dashTimer.IsDashing == false;
+            stateMachine.AddTransition(moveTowardsTarget, dash, TransitionConditions.DashStarted(dashTimer));
+            stateMachine.AddTransition(dash, moveTowardsTarget, TransitionConditions.DashTimerIsOut(dashTimer));
             
             stateMachine.SetState(moveTowardsTarget);
 

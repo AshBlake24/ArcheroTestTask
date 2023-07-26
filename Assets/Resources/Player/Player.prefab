@@ -178,10 +178,9 @@ MonoBehaviour:
   _damageableLayerMask:
     serializedVersion: 2
     m_Bits: 1024
-  _updatesPerSecond: 5
+  _updatesPerSecond: 10
   _firePointHeight: 0.75
   _radius: 11
-  _closetEnemy: {fileID: 0}
 --- !u!114 &-5172188390775225319
 MonoBehaviour:
   m_ObjectHideFlags: 0

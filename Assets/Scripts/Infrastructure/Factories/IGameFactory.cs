@@ -7,6 +7,6 @@ namespace Source.Infrastructure.Factories
     {
         GameObject CreatePlayer(GameObject initialPoint);
         void CreateHud();
-        void CreateEnemySpawner(Transform target);
+        void CreateEnemySpawner();
     }
 }

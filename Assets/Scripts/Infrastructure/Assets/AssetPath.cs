@@ -4,7 +4,7 @@
     {
         public const string PlayerPath = "Player/Player";
         public const string HudPath = "UI/HUD";
-        public const string EnemyPath = "Enemies/Enemy";
-        public const string StaticDataPath = "Resources/StaticData";
+        public const string StaticDataPath = "StaticData";
+        public const string EnemySpawner = "Enemies/EnemySpawner";
     }
 }

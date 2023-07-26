@@ -49,7 +49,8 @@ namespace Source.Infrastructure.States
                 _services.Single<IEnemyBehaviourFactory>()));
             
             _services.RegisterSingle<IGameFactory>(new GameFactory(
-                _services.Single<IAssetProvider>()));
+                _services.Single<IAssetProvider>(),
+                _services.Single<IEnemyFactory>()));
         }
 
         private void RegisterStaticDataService()

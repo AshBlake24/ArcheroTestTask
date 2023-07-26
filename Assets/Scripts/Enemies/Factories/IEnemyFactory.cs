@@ -1,3 +1,4 @@
+using Source.Enemies.Data;
 using Source.Infrastructure.Services;
 using UnityEngine;
 

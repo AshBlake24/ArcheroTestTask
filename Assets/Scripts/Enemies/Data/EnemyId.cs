@@ -1,4 +1,4 @@
-﻿namespace Source.Enemies
+﻿namespace Source.Enemies.Data
 {
     public enum EnemyId
     {

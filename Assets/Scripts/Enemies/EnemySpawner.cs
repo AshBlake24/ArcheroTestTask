@@ -1,10 +1,14 @@
-﻿using Source.Enemies.Factories;
+﻿using System.Collections.Generic;
+using Source.Enemies.Data;
+using Source.Enemies.Factories;
 using UnityEngine;
 
 namespace Source.Enemies
 {
     public class EnemySpawner : MonoBehaviour
     {
+        [SerializeField] private List<Transform> _spawnPoints;
+        
         private IEnemyFactory _enemyFactory;
         private Transform _target;
 

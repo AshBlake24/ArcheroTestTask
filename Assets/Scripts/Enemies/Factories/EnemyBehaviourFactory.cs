@@ -45,16 +45,19 @@ namespace Source.Enemies.Factories
             StateMachine stateMachine = new StateMachine();
 
             var moveTowardsTarget = new MoveTransformToTarget(target, enemy.transform, enemyData.Speed);
+            var dash = new Dash(target, enemy.transform, enemyData.DashSpeed);
             var idle = new IdleState();
 
             DashTimer dashTimer = enemy.GetComponent<DashTimer>();
-            dashTimer.Construct(enemyData.DashDuration, enemyData.DashSpeed, enemyData.DashRate);
-            dashTimer.DashStarted += moveTowardsTarget.SetSpeed;
-            dashTimer.DashEnded += moveTowardsTarget.ResetSpeed;
+            dashTimer.Construct(enemyData.DashDuration, enemyData.DashRate);
 
-            stateMachine.AddAnyTransition(moveTowardsTarget, TargetTooFar);
-
-            bool TargetTooFar() => Vector3.Distance(enemy.transform.position, target.position) > 0.3f;
+            stateMachine.AddTransition(moveTowardsTarget, dash, DashStarted);
+            stateMachine.AddTransition(dash, moveTowardsTarget, DashTimerIsOut);
+            
+            bool DashStarted() => dashTimer.IsDashing;
+            bool DashTimerIsOut() => dashTimer.IsDashing == false;
+            
+            stateMachine.SetState(moveTowardsTarget);
 
             return stateMachine;
         }

@@ -16,10 +16,20 @@ namespace Source.Combat
 
         private void OnCollisionEnter(Collision collision)
         {
-            if (collision.gameObject.TryGetComponent(out IDamageable damageable)) 
-                damageable.TakeDamage(_damage);
-
+            TryDealDamage(collision.gameObject);
             Destroy(gameObject);
+        }
+
+        private void OnTriggerEnter(Collider other)
+        {
+            TryDealDamage(other.gameObject);
+            Destroy(gameObject);
+        }
+
+        private void TryDealDamage(GameObject obj)
+        {
+            if (obj.TryGetComponent(out IDamageable damageable))
+                damageable.TakeDamage(_damage);
         }
     }
 }

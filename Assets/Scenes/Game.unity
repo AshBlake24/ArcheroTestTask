@@ -857,32 +857,6 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 5142661464931533694, guid: e773738b1787a694ca84023bb2f5eff5, type: 3}
   m_PrefabInstance: {fileID: 1890817951}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &4504286450140561903
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7285214384715614381}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1e8fd80f9990459ea19ab7d417a7479b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &4877189801215908830
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7285214384715614381}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c6f2601aec1e40d38b4de19f37acaab3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _health: {fileID: 7490529779233109198}
-  _timeToDestroy: 1
 --- !u!1001 &4946917986842829647
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -945,50 +919,3 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 2178030193799591001, guid: 606c812a1e9c55d4681e81dd5d5186da, type: 3}
   m_PrefabInstance: {fileID: 4946917986842829647}
   m_PrefabAsset: {fileID: 0}
---- !u!4 &7285214384715614380
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7285214384715614381}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 0}
-  m_RootOrder: 2
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1 &7285214384715614381
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7285214384715614380}
-  - component: {fileID: 4504286450140561903}
-  - component: {fileID: 7490529779233109198}
-  - component: {fileID: 4877189801215908830}
-  m_Layer: 10
-  m_Name: Enemy
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!114 &7490529779233109198
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7285214384715614381}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: adcc22c8aa6a4322a0a48c7ee64fc01a, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  _maxValue: 10
-  _currentValue: 10

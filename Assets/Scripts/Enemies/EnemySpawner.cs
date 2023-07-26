@@ -20,6 +20,6 @@ namespace Source.Enemies
         }
 
         private void SpawnEnemy() => 
-            _enemyFactory.CreateEnemy(EnemyId.Capsule, transform, _target);
+            _enemyFactory.CreateEnemy(EnemyId.Bat, transform, _target);
     }
 }

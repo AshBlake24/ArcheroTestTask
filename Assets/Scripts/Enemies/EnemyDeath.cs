@@ -5,7 +5,6 @@ using UnityEngine;
 
 namespace Source.Enemies
 {
-    [RequireComponent(typeof(EnemyHealth))]
     public class EnemyDeath : MonoBehaviour
     {
         [SerializeField] private EnemyHealth _health;

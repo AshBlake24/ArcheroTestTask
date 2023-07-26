@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using Source.Utilities;
 using UnityEngine;
 
@@ -7,27 +6,23 @@ namespace Source.Behaviour
 {
     public class DashTimer : MonoBehaviour
     {
-        private float _dashSpeed;
         private float _dashDuration;
         private float _dashRate;
         private float _elapsedTime;
-        private bool _isDashing;
+        
+        public bool IsDashing { get; private set; }
 
-        public event Action<float> DashStarted;
-        public event Action DashEnded;
-
-        public void Construct(float dashDuration, float dashSpeed, float dashRate)
+        public void Construct(float dashDuration, float dashRate)
         {
             _dashDuration = dashDuration;
-            _dashSpeed = dashSpeed;
             _dashRate = dashRate;
             _elapsedTime = 0f;
-            _isDashing = false;
+            IsDashing = false;
         }
 
         private void Update()
         {
-            if (_isDashing)
+            if (IsDashing)
                 return;
             
             _elapsedTime += Time.deltaTime;
@@ -48,16 +43,8 @@ namespace Source.Behaviour
             EndDash();
         }
 
-        private void StartDash()
-        {
-            _isDashing = true;
-            DashStarted?.Invoke(_dashSpeed);
-        }
+        private void StartDash() => IsDashing = true;
 
-        private void EndDash()
-        {
-            _isDashing = false;
-            DashEnded?.Invoke();
-        }
+        private void EndDash() => IsDashing = false;
     }
 }

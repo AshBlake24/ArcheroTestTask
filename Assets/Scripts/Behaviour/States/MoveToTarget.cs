@@ -13,7 +13,7 @@ namespace Source.Behaviour.States
         
         public float RemainingDistance => Vector3.Distance(Self.transform.position, Target.position);
 
-        public MoveToTarget(Transform target, Transform self, float speed)
+        protected MoveToTarget(Transform target, Transform self, float speed)
         {
             Target = target;
             Self = self;

@@ -32,6 +32,9 @@ namespace Source.Enemies.Factories
         {
             Enemy enemy = Object.Instantiate(enemyData.Prefab, parent.position, Quaternion.identity, parent)
                 .GetComponent<Enemy>();
+            
+            enemy.GetComponentInChildren<EnemyHealth>()
+                .Construct(enemyData.Health);
 
             StateMachine stateMachine = GetEnemyBehaviour(enemyData, target, enemy);
 

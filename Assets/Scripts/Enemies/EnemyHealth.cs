@@ -6,8 +6,8 @@ namespace Source.Enemies
 {
     public class EnemyHealth : MonoBehaviour, IDamageable
     {
-        public int _maxValue;
-        public int _currentValue;
+        private int _maxValue;
+        private int _currentValue;
 
         public event Action HealthChanged;
 

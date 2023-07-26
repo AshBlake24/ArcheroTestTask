@@ -7,5 +7,6 @@ namespace Source.Infrastructure.Factories
     {
         GameObject CreatePlayer(GameObject initialPoint);
         void CreateHud();
+        void CreateEnemy(Transform target);
     }
 }

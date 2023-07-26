@@ -39,6 +39,8 @@ namespace Source.Infrastructure.States
             _gameFactory.CreateHud();
             CameraFollow(player.transform);
             
+            _gameFactory.CreateEnemy(player.transform);
+            
             _gameStateMachine.Enter<GameLoopState>();
         }
 

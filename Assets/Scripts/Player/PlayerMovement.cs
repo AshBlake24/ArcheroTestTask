@@ -1,7 +1,4 @@
-﻿using System;
-using Source.Camera;
-using Source.Infrastructure;
-using Source.Infrastructure.Services;
+﻿using Source.Infrastructure.Services;
 using Source.Infrastructure.Services.Input;
 using UnityEngine;
 
@@ -14,8 +11,6 @@ namespace Source.Player
         
         private IInputService _inputService;
         private Vector3 _direction;
-        
-        public float Speed { get; private set; }
 
         private void Awake()
         {
@@ -24,7 +19,7 @@ namespace Source.Player
 
         private void Update()
         {
-            if ((_inputService.Axis.sqrMagnitude > 0.01f) == false) 
+            if (_inputService.IsMoving == false) 
                 return;
             
             _direction = GetDirection();

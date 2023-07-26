@@ -7,7 +7,7 @@ namespace Source.Player
 {
     public class PlayerAim : MonoBehaviour
     {
-        private const float MinimalVelocity = 0.1f;
+        private const float SmoothTime = 0.05f;
         
         [SerializeField] private LayerMask _damageableLayerMask;
         [SerializeField] private float _updatesPerSecond;
@@ -16,7 +16,8 @@ namespace Source.Player
 
         private readonly Collider[] _colliders = new Collider[6];
         private IInputService _inputService;
-        public EnemyHealth _closetEnemy;
+        private EnemyHealth _closetEnemy;
+        private float _currentVelocity;
 
         public bool HasTarget => _closetEnemy != null;
 
@@ -26,10 +27,27 @@ namespace Source.Player
             
             InvokeRepeating(
                 nameof(CheckTargets),
-                time: 2,
+                time: 0,
                 repeatRate: (1 / _updatesPerSecond));
         }
+
+        private void Update()
+        {
+            if (HasTarget == false)
+                return;
+
+            RotateTowardsTarget();
+        }
         
+        private void RotateTowardsTarget()
+        {
+            Vector3 direction = (_closetEnemy.transform.position - transform.position).normalized;
+            float rotationAngle = Mathf.Atan2(direction.x, direction.z) * Mathf.Rad2Deg;
+            float rotationAngleSmooth = Mathf.SmoothDampAngle(transform.eulerAngles.y, rotationAngle, ref _currentVelocity, SmoothTime);
+
+            transform.rotation = Quaternion.Euler(0, rotationAngleSmooth, 0);
+        }
+
         private void CheckTargets()
         {
             _closetEnemy = null;
@@ -87,6 +105,6 @@ namespace Source.Player
         }
 
         private bool PlayerIsMoving() => 
-            _inputService.Axis.sqrMagnitude > MinimalVelocity;
+            _inputService.IsMoving;
     }
 }

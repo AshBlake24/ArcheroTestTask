@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 5815596725973691776}
   - component: {fileID: 5815596725973691777}
   - component: {fileID: 5815596725973691778}
+  - component: {fileID: -8332498473521771522}
   m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
@@ -65,6 +66,29 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _moveSpeed: 3
   _characterController: {fileID: 5815596725973691777}
+--- !u!114 &-8332498473521771522
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5815596725973691779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b77dca0f445f4c2cb57042f24e923e26, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _damageableLayerMask:
+    serializedVersion: 2
+    m_Bits: 1024
+  _raycastLayerMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  _updatesPerSecond: 5
+  _firePointHeight: 0.75
+  _radius: 11
+  _drawGizmos: 1
+  _closetEnemy: {fileID: 0}
 --- !u!1 &5815596725996487785
 GameObject:
   m_ObjectHideFlags: 0

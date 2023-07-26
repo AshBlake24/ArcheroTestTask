@@ -14,6 +14,8 @@ namespace Source.Player
         
         private IInputService _inputService;
         private Vector3 _direction;
+        
+        public float Speed { get; private set; }
 
         private void Awake()
         {

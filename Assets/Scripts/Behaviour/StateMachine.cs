@@ -23,6 +23,20 @@ namespace Source.Behaviour
             _currentState?.Tick();
         }
 
+        public void SetState(IState state)
+        {
+            if (state == _currentState)
+                return;
+            
+            _currentState?.OnExit();
+            _currentState = state;
+
+            _transitions.TryGetValue(_currentState.GetType(), out _currentTransitions);
+            _currentTransitions ??= s_emptyTransitions;
+            
+            _currentState.OnEnter();
+        }
+
         public void AddTransition(IState from, IState to, Func<bool> predicate)
         {
             Type key = from.GetType();
@@ -39,20 +53,6 @@ namespace Source.Behaviour
         public void AddAnyTransition(IState to, Func<bool> predicate)
         {
             _anyTransitions.Add(new Transition(to, predicate));
-        }
-
-        private void SetState(IState state)
-        {
-            if (state == _currentState)
-                return;
-            
-            _currentState?.OnExit();
-            _currentState = state;
-
-            _transitions.TryGetValue(_currentState.GetType(), out _currentTransitions);
-            _currentTransitions ??= s_emptyTransitions;
-            
-            _currentState.OnEnter();
         }
 
         private Transition GetTransition()

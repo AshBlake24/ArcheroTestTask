@@ -1,17 +1,11 @@
-﻿using System;
-using Source.Behaviour;
-using Source.Behaviour.States;
-using Source.Enemies;
-using Source.Infrastructure.Assets;
+﻿using Source.Infrastructure.Assets;
 using UnityEngine;
-using UnityEngine.AI;
 
 namespace Source.Infrastructure.Factories
 {
     public class GameFactory : IGameFactory
     {
         private readonly IAssetProvider _assetProvider;
-        private Func<bool> TargetReached;
 
         public GameFactory(IAssetProvider assetProvider)
         {
@@ -23,7 +17,7 @@ namespace Source.Infrastructure.Factories
         public GameObject CreatePlayer(GameObject initialPoint) => 
             _assetProvider.Instantiate(AssetPath.PlayerPath, initialPoint.transform.position);
 
-        public void CreateEnemy(Transform target)
+        public void CreateEnemySpawner(Transform target)
         {
             
         }

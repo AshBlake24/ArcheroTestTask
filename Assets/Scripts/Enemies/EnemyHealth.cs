@@ -16,6 +16,14 @@ namespace Source.Enemies
         private void Start() => 
             _currentValue = _maxValue;
 
+        public void Construct(int health)
+        {
+            _maxValue = health;
+            _currentValue = _maxValue;
+            
+            HealthChanged?.Invoke();
+        }
+
         public void TakeDamage(int damage)
         {
             if (damage < 0)

@@ -8,13 +8,9 @@ namespace Source.Enemies
         private StateMachine _stateMachine;
         private bool _isActive;
 
-        public Transform Target { get; private set; }
-
-        public void Construct(StateMachine stateMachine, Transform target)
+        public void Construct(StateMachine stateMachine)
         {
             _stateMachine = stateMachine;
-            Target = target;
-            
             _isActive = true;
         }
         

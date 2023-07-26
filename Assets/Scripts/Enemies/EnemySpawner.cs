@@ -1,19 +1,25 @@
-﻿using Source.Enemies.Factory;
+﻿using Source.Enemies.Factories;
+using UnityEngine;
 
 namespace Source.Enemies
 {
-    public class EnemySpawner
+    public class EnemySpawner : MonoBehaviour
     {
-        private readonly IEnemyFactory _enemyFactory;
+        private IEnemyFactory _enemyFactory;
+        private Transform _target;
 
-        public EnemySpawner(IEnemyFactory enemyFactory)
+        public void Construct(IEnemyFactory enemyFactory, Transform player)
         {
             _enemyFactory = enemyFactory;
+            _target = player;
         }
-        
-        public void SpawnEnemy()
+
+        private void Start()
         {
-            Enemy enemy = _enemyFactory.CreateEnemy(EnemyId.Capsule);
+            SpawnEnemy();
         }
+
+        private void SpawnEnemy() => 
+            _enemyFactory.CreateEnemy(EnemyId.Capsule, transform, _target);
     }
 }

@@ -1,17 +1,17 @@
-﻿using System;
-using System.Timers;
-using UnityEngine;
+﻿using UnityEngine;
 
 namespace Source.Combat
 {
+    [RequireComponent(typeof(Rigidbody))]
     public class Projectile : MonoBehaviour
     {
+        [SerializeField] private Rigidbody _rigidbody;
+        [SerializeField]  private float _force;
         [SerializeField] private int _damage;
-        [SerializeField] private float _speed;
 
-        private void FixedUpdate()
+        private void Start()
         {
-            transform.Translate(Vector3.forward * _speed * Time.fixedDeltaTime);
+            _rigidbody.AddForce(transform.forward * _force, ForceMode.Impulse);
         }
 
         private void OnCollisionEnter(Collision collision)

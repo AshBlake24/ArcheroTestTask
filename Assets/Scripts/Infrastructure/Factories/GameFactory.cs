@@ -7,6 +7,7 @@ using Source.Infrastructure.Services.StaticData;
 using Source.Logic;
 using Source.Player.Components;
 using Source.Player.Data;
+using Source.UI;
 using UnityEngine;
 
 namespace Source.Infrastructure.Factories
@@ -37,18 +38,9 @@ namespace Source.Infrastructure.Factories
             _player = _assetProvider.Instantiate(AssetPath.PlayerPath, initialPoint.transform.position);
             PlayerStaticData playerData = _staticDataService.Player;
 
-            _player.GetComponentInChildren<IHealth>()
-                .Construct(playerData.Health);
-            
-            _player.GetComponent<PlayerMovement>()
-                .Construct(_inputService, playerData.MovementSpeed);
-            
-            _player.GetComponent<PlayerAim>()
-                .Construct(_inputService);
-            
-            _player.GetComponent<PlayerShooter>()
-                .Construct(_inputService, playerData.AttackRate, playerData.AttackForce, playerData.Damage);
-            
+            ConstructHealthBar(playerData);
+            ConstructPlayerComponents(playerData);
+
             return _player;
         }
 
@@ -62,5 +54,26 @@ namespace Source.Infrastructure.Factories
 
         public Timer CreateGameStartTimer() => 
             new Timer(_coroutineRunner, _staticDataService.GameConfig.SecondsBeforeGameStart);
+
+        private void ConstructHealthBar(PlayerStaticData playerData)
+        {
+            IHealth health = _player.GetComponentInChildren<IHealth>();
+            health.Construct(playerData.Health);
+
+            _player.GetComponent<ActorUI>()
+                .Construct(health);
+        }
+
+        private void ConstructPlayerComponents(PlayerStaticData playerData)
+        {
+            _player.GetComponent<PlayerMovement>()
+                .Construct(_inputService, playerData.MovementSpeed);
+
+            _player.GetComponent<PlayerAim>()
+                .Construct(_inputService);
+
+            _player.GetComponent<PlayerShooter>()
+                .Construct(_inputService, playerData.AttackRate, playerData.AttackForce, playerData.Damage);
+        }
     }
 }

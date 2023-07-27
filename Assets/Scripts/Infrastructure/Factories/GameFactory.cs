@@ -5,7 +5,7 @@ using Source.Infrastructure.Assets;
 using Source.Infrastructure.Services.Input;
 using Source.Infrastructure.Services.StaticData;
 using Source.Logic;
-using Source.Player;
+using Source.Player.Components;
 using Source.Player.Data;
 using UnityEngine;
 

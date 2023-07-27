@@ -4,7 +4,7 @@ using Source.Infrastructure.Events;
 using Source.Infrastructure.Services.Input;
 using UnityEngine;
 
-namespace Source.Player
+namespace Source.Player.Components
 {
     [RequireComponent(typeof(PlayerAim))]
     public class PlayerShooter : MonoBehaviour, IStartGameHandler

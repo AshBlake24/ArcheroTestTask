@@ -1,11 +1,10 @@
-﻿using System;
-using Source.Enemies;
+﻿using Source.Enemies;
 using Source.Gameplay;
 using Source.Infrastructure.Events;
 using Source.Infrastructure.Services.Input;
 using UnityEngine;
 
-namespace Source.Player
+namespace Source.Player.Components
 {
     public class PlayerAim : MonoBehaviour, IStartGameHandler
     {

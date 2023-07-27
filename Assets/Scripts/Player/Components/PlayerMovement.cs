@@ -3,7 +3,7 @@ using Source.Infrastructure.Events;
 using Source.Infrastructure.Services.Input;
 using UnityEngine;
 
-namespace Source.Player
+namespace Source.Player.Components
 {
     public class PlayerMovement : MonoBehaviour, IStartGameHandler
     {

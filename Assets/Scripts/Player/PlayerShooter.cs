@@ -1,7 +1,6 @@
 ﻿using Source.Combat;
 using Source.Gameplay;
 using Source.Infrastructure.Events;
-using Source.Infrastructure.Services;
 using Source.Infrastructure.Services.Input;
 using UnityEngine;
 
@@ -13,15 +12,21 @@ namespace Source.Player
         [SerializeField] private PlayerAim _aim;
         [SerializeField] private Transform _shootPoint;
         [SerializeField] private Projectile _projectilePrefab;
-        [SerializeField] private float _attackRate;
 
         private IInputService _inputService;
         private float _elapsedTime;
+        private float _attackRate;
+        private float _attackForce;
+        private int _damage;
 
-        public void Construct(IInputService inputService)
+        public void Construct(IInputService inputService, float attackRate, float attackForce, int damage)
         {
             enabled = false;
             _inputService = inputService;
+            _attackRate = attackRate;
+            _attackForce = attackForce;
+            _damage = damage;
+            
             EventBus.Subscribe(this);
         }
 
@@ -46,7 +51,8 @@ namespace Source.Player
 
         private void Shoot()
         {
-            Instantiate(_projectilePrefab, _shootPoint.position, _shootPoint.rotation);
+            Projectile projectile = Instantiate(_projectilePrefab, _shootPoint.position, _shootPoint.rotation);
+            projectile.Init(_damage, _attackForce);
         }
         
         private bool PlayerIsMoving() => 

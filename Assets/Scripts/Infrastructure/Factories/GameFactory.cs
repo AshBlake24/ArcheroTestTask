@@ -6,6 +6,7 @@ using Source.Infrastructure.Services.Input;
 using Source.Infrastructure.Services.StaticData;
 using Source.Logic;
 using Source.Player;
+using Source.Player.Data;
 using UnityEngine;
 
 namespace Source.Infrastructure.Factories
@@ -34,15 +35,16 @@ namespace Source.Infrastructure.Factories
         public GameObject CreatePlayer(GameObject initialPoint)
         {
             _player = _assetProvider.Instantiate(AssetPath.PlayerPath, initialPoint.transform.position);
+            PlayerStaticData playerData = _staticDataService.Player;
 
             _player.GetComponent<PlayerMovement>()
-                .Construct(_inputService);
+                .Construct(_inputService, playerData.MovementSpeed);
             
             _player.GetComponent<PlayerAim>()
                 .Construct(_inputService);
             
             _player.GetComponent<PlayerShooter>()
-                .Construct(_inputService);
+                .Construct(_inputService, playerData.AttackRate, playerData.AttackForce, playerData.Damage);
             
             return _player;
         }

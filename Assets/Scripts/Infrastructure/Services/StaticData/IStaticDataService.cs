@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using Source.Gameplay;
+using Source.Player.Data;
 
 namespace Source.Infrastructure.Services.StaticData
 {
@@ -16,5 +17,6 @@ namespace Source.Infrastructure.Services.StaticData
             where TData : IStaticData;
 
         GameConfig GameConfig { get; }
+        PlayerStaticData Player { get; }
     }
 }

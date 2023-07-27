@@ -6,13 +6,18 @@ namespace Source.Combat
     public class Projectile : MonoBehaviour
     {
         [SerializeField] private Rigidbody _rigidbody;
-        [SerializeField]  private float _force;
-        [SerializeField] private int _damage;
 
-        private void Start()
+        private int _damage;
+        private float _force;
+
+        public void Init(int damage, float force)
         {
-            _rigidbody.AddForce(transform.forward * _force, ForceMode.Impulse);
+            _damage = damage;
+            _force = force;
         }
+        
+        private void Start() => 
+            _rigidbody.AddForce(transform.forward * _force, ForceMode.Impulse);
 
         private void OnCollisionEnter(Collision collision)
         {

@@ -13,7 +13,7 @@ namespace Source.Player
         private IInputService _inputService;
         private Vector3 _direction;
 
-        public void Construct(IInputService inputService)
+        public void Construct(IInputService inputService, float playerDataMovementSpeed)
         {
             enabled = false;
             _inputService = inputService;

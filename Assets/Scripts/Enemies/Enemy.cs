@@ -9,10 +9,13 @@ namespace Source.Enemies
     {
         private StateMachine _stateMachine;
         private bool _isActive;
+        
+        public int Coins { get; private set; }
 
-        public void Construct(StateMachine stateMachine)
+        public void Construct(StateMachine stateMachine, int coins)
         {
             _stateMachine = stateMachine;
+            Coins = coins;
         }
 
         private void OnEnable() => EventBus.Subscribe(this);

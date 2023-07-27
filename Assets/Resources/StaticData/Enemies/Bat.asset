@@ -16,6 +16,7 @@ MonoBehaviour:
   _prefab: {fileID: 2740020937476011077, guid: 2015686a182357b4d9d5a3bb36783ebb, type: 3}
   _health: 5
   _damage: 1
+  _coins: 3
   _speed: 0.5
   _attackRate: 0.75
   _dashSpeed: 4

@@ -1,6 +1,8 @@
-﻿using Source.Enemies.Factories;
+﻿using Source.Data.Service;
+using Source.Enemies.Factories;
 using Source.Gameplay;
 using Source.Infrastructure.Events;
+using Source.Infrastructure.Services.StaticData;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -19,14 +21,17 @@ namespace Source.Enemies
         [SerializeField, Min(0)] private int _maxEnemiesCount;
         [SerializeField, Min(0)] private int _attemptsToGetPoint;
 
+        private IPersistentDataService _persistentDataService;
         private IEnemyFactory _enemyFactory;
         private GameField _gameField;
         private GameObject _target;
         private Bounds _spawnAreaBounds;
         private int _aliveEnemies;
 
-        public void Construct(IEnemyFactory enemyFactory, GameObject player, GameField gameField)
+        public void Construct(IEnemyFactory enemyFactory, IPersistentDataService persistentDataService,
+            GameObject player, GameField gameField)
         {
+            _persistentDataService = persistentDataService;
             _enemyFactory = enemyFactory;
             _gameField = gameField;
             _target = player;
@@ -98,6 +103,7 @@ namespace Source.Enemies
             enemy.Died -= OnEnemyDied;
 
             _aliveEnemies--;
+            _persistentDataService.PlayerProgress.Balance.AddCoins(enemy.GetComponent<Enemy>().Coins);
 
             if (_aliveEnemies <= 0)
                 EventBus.RaiseEvent<IStageClearHandler>(h => h.OnStageCleared());

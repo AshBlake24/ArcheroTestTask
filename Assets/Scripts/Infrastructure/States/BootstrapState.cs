@@ -72,6 +72,7 @@ namespace Source.Infrastructure.States
                 _services.Single<IInputService>(),
                 _services.Single<IStaticDataService>(),
                 _services.Single<ISaveLoadService>(),
+                _services.Single<IPersistentDataService>(),
                 _gameStateMachine,
                 _coroutineRunner));
         }

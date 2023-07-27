@@ -63,7 +63,7 @@ namespace Source.Enemies.Factories
         private void ConstructEnemyBehaviour(EnemyStaticData enemyData, Transform target, Enemy enemy)
         {
             StateMachine stateMachine = _enemyBehaviourFactory.CreateEnemyBehaviour(enemyData, target, enemy);
-            enemy.Construct(stateMachine);
+            enemy.Construct(stateMachine, enemyData.Coins);
         }
 
         private static void ConstructHealthBar(EnemyStaticData enemyData, Enemy enemy)

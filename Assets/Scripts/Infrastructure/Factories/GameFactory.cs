@@ -1,4 +1,5 @@
-﻿using Source.Enemies;
+﻿using Source.Data.Service;
+using Source.Enemies;
 using Source.Enemies.Factories;
 using Source.Gameplay;
 using Source.Infrastructure.Assets;
@@ -11,6 +12,7 @@ using Source.Logic;
 using Source.Player.Components;
 using Source.Player.Data;
 using Source.UI;
+using Source.UI.Elements;
 using UnityEngine;
 
 namespace Source.Infrastructure.Factories
@@ -23,12 +25,13 @@ namespace Source.Infrastructure.Factories
         private readonly IStaticDataService _staticDataService;
         private readonly ICoroutineRunner _coroutineRunner;
         private readonly ISaveLoadService _saveLoadService;
+        private readonly IPersistentDataService _persistentDataService;
         private readonly IGameStateMachine _gameStateMachine;
         private GameObject _player;
 
         public GameFactory(IAssetProvider assetProvider, IEnemyFactory enemyFactory, IInputService inputService,
-            IStaticDataService staticDataService, ISaveLoadService saveLoadService, IGameStateMachine gameStateMachine,
-            ICoroutineRunner coroutineRunner)
+            IStaticDataService staticDataService, ISaveLoadService saveLoadService, IPersistentDataService persistentDataService,
+            IGameStateMachine gameStateMachine, ICoroutineRunner coroutineRunner)
         {
             _assetProvider = assetProvider;
             _enemyFactory = enemyFactory;
@@ -36,10 +39,17 @@ namespace Source.Infrastructure.Factories
             _staticDataService = staticDataService;
             _coroutineRunner = coroutineRunner;
             _saveLoadService = saveLoadService;
+            _persistentDataService = persistentDataService;
             _gameStateMachine = gameStateMachine;
         }
 
-        public void CreateHud() => _assetProvider.InstantiateRegistered(AssetPath.HudPath);
+        public void CreateHud()
+        {
+            GameObject hud = _assetProvider.InstantiateRegistered(AssetPath.HudPath);
+            
+            hud.GetComponentInChildren<CoinsObserver>()
+                .Construct(_persistentDataService.PlayerProgress.Balance);
+        }
 
         public GameObject CreatePlayer(GameObject initialPoint)
         {
@@ -56,7 +66,7 @@ namespace Source.Infrastructure.Factories
             EnemySpawner spawner = _assetProvider.Instantiate(AssetPath.EnemySpawner)
                 .GetComponent<EnemySpawner>();
             
-            spawner.Construct(_enemyFactory, _player, gameField);
+            spawner.Construct(_enemyFactory, _persistentDataService, _player, gameField);
         }
 
         public Timer CreateGameStartTimer() => 

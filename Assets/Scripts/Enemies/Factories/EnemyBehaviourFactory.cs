@@ -29,7 +29,6 @@ namespace Source.Enemies.Factories
 
             var rangeAttack = new RangeAttack(enemy, target, enemyData);
             var moveToRandomPoint = new MoveAgentToRandomPoint(navMeshAgent, enemy.transform, enemyData);
-            //var idle = new IdleState();
 
             stateMachine.AddTransition(
                 from: moveToRandomPoint, 
@@ -56,7 +55,6 @@ namespace Source.Enemies.Factories
 
             var moveTowardsTarget = new MoveTransformToTarget(target, enemy.transform, enemyData.Speed);
             var dash = new Dash(target, enemy.transform, enemyData.DashSpeed);
-            //var idle = new IdleState();
 
             DashTimer dashTimer = enemy.GetComponent<DashTimer>();
             dashTimer.Construct(enemyData.DashDuration, enemyData.DashRate);

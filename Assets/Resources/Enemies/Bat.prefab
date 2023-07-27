@@ -60,7 +60,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _health: {fileID: 4835957134375333851}
-  _timeToDestroy: 3
+  _timeToDestroy: 0
 --- !u!114 &5848421884599894564
 MonoBehaviour:
   m_ObjectHideFlags: 0

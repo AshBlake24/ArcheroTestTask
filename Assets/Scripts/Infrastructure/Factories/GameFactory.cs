@@ -1,5 +1,6 @@
 ﻿using Source.Enemies;
 using Source.Enemies.Factories;
+using Source.Gameplay;
 using Source.Infrastructure.Assets;
 using UnityEngine;
 
@@ -25,12 +26,12 @@ namespace Source.Infrastructure.Factories
             return _player;
         }
 
-        public void CreateEnemySpawner()
+        public void CreateEnemySpawner(GameField gameField)
         {
             EnemySpawner spawner = _assetProvider.Instantiate(AssetPath.EnemySpawner)
                 .GetComponent<EnemySpawner>();
             
-            spawner.Construct(_enemyFactory, _player.transform);
+            spawner.Construct(_enemyFactory, _player.transform, gameField);
         }
     }
 }

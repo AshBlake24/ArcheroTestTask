@@ -259,8 +259,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: adcc22c8aa6a4322a0a48c7ee64fc01a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxValue: 10
-  _currentValue: 10
 --- !u!114 &5809160959030465130
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -274,4 +272,4 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _health: {fileID: -809875593601909382}
-  _timeToDestroy: 1
+  _timeToDestroy: 0

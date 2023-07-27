@@ -10,7 +10,7 @@ namespace Source.Enemies
         [SerializeField] private EnemyHealth _health;
         [SerializeField] private float _timeToDestroy = 3f;
 
-        public event Action Died;
+        public event Action<EnemyDeath> Died;
 
         private void Start() => 
             _health.HealthChanged += OnHealthChanged;
@@ -28,7 +28,7 @@ namespace Source.Enemies
         {
             StartCoroutine(DestroyTimer());
             
-            Died?.Invoke();
+            Died?.Invoke(this);
         }
 
         private IEnumerator DestroyTimer()

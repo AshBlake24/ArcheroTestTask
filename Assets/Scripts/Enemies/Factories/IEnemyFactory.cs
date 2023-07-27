@@ -6,6 +6,7 @@ namespace Source.Enemies.Factories
 {
     public interface IEnemyFactory : IService
     {
-        Enemy CreateEnemy(EnemyId id, Transform parent, Transform target);
+        Enemy CreateEnemy(EnemyId id, Vector3 spawnPoint, Transform parent, Transform target);
+        Enemy CreateRandomEnemy(Vector3 spawnPoint, Transform target, Transform parent);
     }
 }

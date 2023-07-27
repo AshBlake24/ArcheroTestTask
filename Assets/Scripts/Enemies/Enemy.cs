@@ -11,7 +11,6 @@ namespace Source.Enemies
         public void Construct(StateMachine stateMachine)
         {
             _stateMachine = stateMachine;
-            _isActive = true;
         }
         
         private void Update()

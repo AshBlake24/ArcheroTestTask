@@ -1,4 +1,5 @@
 ﻿using Source.Camera;
+using Source.Gameplay;
 using Source.Infrastructure.Factories;
 using UnityEngine;
 
@@ -6,8 +7,8 @@ namespace Source.Infrastructure.States
 {
     public class LoadLevelState : IPayloadedState<string>
     {
-        private const string InitialPointTag = "InitialPoint";
-        
+        private const string GameFieldTag = "GameField";
+
         private readonly GameStateMachine _gameStateMachine;
         private readonly LoadingScreen _loadingScreen;
         private readonly SceneLoader _sceneLoader;
@@ -35,12 +36,15 @@ namespace Source.Infrastructure.States
 
         private void OnLoaded()
         {
-            GameObject player = _gameFactory.CreatePlayer(GameObject.FindWithTag(InitialPointTag));
+            GameField gameField = GetGameField();
+            GameObject player = _gameFactory.CreatePlayer(
+                gameField.GetComponentInChildren<InitialPoint>().gameObject);
+            
             _gameFactory.CreateHud();
+            _gameFactory.CreateEnemySpawner(gameField); 
+            
             CameraFollow(player.transform);
-            
-            _gameFactory.CreateEnemySpawner();
-            
+
             _gameStateMachine.Enter<GameLoopState>();
         }
 
@@ -50,5 +54,8 @@ namespace Source.Infrastructure.States
                 .GetComponent<CameraFollow>()
                 .SetTarget(target);
         }
+
+        private static GameField GetGameField() =>
+            GameObject.FindWithTag(GameFieldTag).GetComponent<GameField>();
     }
 }

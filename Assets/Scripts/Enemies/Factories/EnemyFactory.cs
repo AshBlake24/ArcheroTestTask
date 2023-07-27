@@ -1,9 +1,12 @@
 ﻿using System;
+using System.Collections.Generic;
+using System.Linq;
 using Source.Behaviour;
 using Source.Enemies.Data;
 using Source.Infrastructure.Services.StaticData;
 using UnityEngine;
 using Object = UnityEngine.Object;
+using Random = UnityEngine.Random;
 
 namespace Source.Enemies.Factories
 {
@@ -18,19 +21,34 @@ namespace Source.Enemies.Factories
             _enemyBehaviourFactory = enemyBehaviourFactory;
         }
 
-        public Enemy CreateEnemy(EnemyId id, Transform parent, Transform target)
+        public Enemy CreateEnemy(EnemyId id, Vector3 spawnPoint, Transform parent, Transform target)
         {
             if (id == EnemyId.Unknown)
                 throw new ArgumentNullException(nameof(id), "Enemy id is not specified");
 
             EnemyStaticData enemyData = _staticDataService.GetDataById<EnemyId, EnemyStaticData>(id);
 
-            return ConstructEnemy(enemyData, parent, target);
+            return ConstructEnemy(enemyData, spawnPoint, parent, target);
         }
 
-        private Enemy ConstructEnemy(EnemyStaticData enemyData, Transform parent, Transform target)
+        public Enemy CreateRandomEnemy(Vector3 spawnPoint, Transform target, Transform parent)
         {
-            Enemy enemy = Object.Instantiate(enemyData.Prefab, parent.position, Quaternion.identity, parent)
+            EnemyStaticData enemyData = GetRandomEnemyData();
+            
+            return ConstructEnemy(enemyData, spawnPoint, parent, target);
+        }
+
+        private EnemyStaticData GetRandomEnemyData()
+        {
+            List<EnemyStaticData> enemiesStaticData = _staticDataService.GetAllDataByType<EnemyId, EnemyStaticData>()
+                .ToList();
+            
+            return enemiesStaticData[Random.Range(0, enemiesStaticData.Count)];
+        }
+
+        private Enemy ConstructEnemy(EnemyStaticData enemyData, Vector3 spawnPoint, Transform parent, Transform target)
+        {
+            Enemy enemy = Object.Instantiate(enemyData.Prefab, spawnPoint, Quaternion.identity, parent)
                 .GetComponent<Enemy>();
             
             enemy.GetComponentInChildren<EnemyHealth>()

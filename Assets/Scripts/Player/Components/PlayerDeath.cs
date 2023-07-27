@@ -7,6 +7,7 @@ namespace Source.Player.Components
     {
         [SerializeField] private PlayerHealth _health;
         [SerializeField] private GameObject _deathVFX;
+        [SerializeField] private Transform _deathVFXPoint;
 
         public event Action<PlayerDeath> Died;
 
@@ -31,6 +32,6 @@ namespace Source.Player.Components
         }
 
         private void SpawnDeathFx() => 
-            Instantiate(_deathVFX, transform.position, Quaternion.identity);
+            Instantiate(_deathVFX, _deathVFXPoint.position, Quaternion.identity);
     }
 }

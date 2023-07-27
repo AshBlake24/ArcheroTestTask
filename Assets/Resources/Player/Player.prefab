@@ -202,7 +202,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   _aim: {fileID: -8332498473521771522}
   _shootPoint: {fileID: 6481877756949973480}
-  _projectilePrefab: {fileID: 4235080937243542167, guid: 33f7bb4f2c93fd549b5c59aa586e26be, type: 3}
 --- !u!114 &1182975080360783611
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -216,6 +215,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _health: {fileID: 1283146916516102168}
+  _deathVFX: {fileID: 119968, guid: e73000b12fb76244cbffd6abbf8bb6e4, type: 3}
+  _deathVFXPoint: {fileID: 5815596725996487789}
 --- !u!114 &9124431486031552428
 MonoBehaviour:
   m_ObjectHideFlags: 0

@@ -202,5 +202,5 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _canvasGroup: {fileID: 2297825508983206154}
-  _fadeTime: 0.05
-  _updateTime: 0.02
+  _fadeTime: 0.02
+  _updateTime: 0.03

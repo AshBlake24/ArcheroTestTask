@@ -336,7 +336,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   _health: {fileID: 4414335331415373013}
-  _timeToDestroy: 0
+  _deathVFX: {fileID: 119968, guid: e73000b12fb76244cbffd6abbf8bb6e4, type: 3}
+  _deathVFXPoint: {fileID: 8514983872127698770}
 --- !u!114 &106681839
 MonoBehaviour:
   m_ObjectHideFlags: 0

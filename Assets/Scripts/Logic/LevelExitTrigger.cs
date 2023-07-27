@@ -26,8 +26,8 @@ namespace Source.Logic
 
             if (player != null)
             {
-                _stateMachine.Enter<LoadLevelState, string>(_levelName);
                 _isTriggered = true;
+                _stateMachine.Enter<LoadLevelState, string>(_levelName);
             }
         }
     }

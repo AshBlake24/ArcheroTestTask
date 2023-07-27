@@ -1,6 +1,4 @@
 ﻿using System;
-using System.Collections;
-using Source.Utilities;
 using UnityEngine;
 
 namespace Source.Enemies
@@ -8,7 +6,8 @@ namespace Source.Enemies
     public class EnemyDeath : MonoBehaviour
     {
         [SerializeField] private EnemyHealth _health;
-        [SerializeField] private float _timeToDestroy = 3f;
+        [SerializeField] private GameObject _deathVFX;
+        [SerializeField] private Transform _deathVFXPoint;
 
         public event Action<EnemyDeath> Died;
 
@@ -26,16 +25,13 @@ namespace Source.Enemies
 
         private void Die()
         {
-            StartCoroutine(DestroyTimer());
-            
             Died?.Invoke(this);
-        }
-
-        private IEnumerator DestroyTimer()
-        {
-            yield return TimeUtility.GetTime(_timeToDestroy);
             
+            SpawnDeathFx();
             Destroy(gameObject);
         }
+
+        private void SpawnDeathFx() => 
+            Instantiate(_deathVFX, _deathVFXPoint.position, Quaternion.identity);
     }
 }

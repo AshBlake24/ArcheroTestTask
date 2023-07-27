@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Source.Enemies
 {
-    public class EnemyHealth : MonoBehaviour, IDamageable, IHealth
+    public class EnemyHealth : MonoBehaviour, IHealth
     {
         private int _maxValue;
         private int _currentValue;

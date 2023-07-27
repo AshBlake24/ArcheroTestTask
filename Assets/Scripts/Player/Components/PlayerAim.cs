@@ -11,6 +11,7 @@ namespace Source.Player.Components
         private const float SmoothTime = 0.05f;
         
         [SerializeField] private LayerMask _damageableLayerMask;
+        [SerializeField] private LayerMask _raycastLayerMask;
         [SerializeField] private float _updatesPerSecond;
         [SerializeField] private float _firePointHeight;
         [SerializeField, Min(0)] private float _radius;
@@ -98,7 +99,7 @@ namespace Source.Player.Components
             enemyPosition.y = _firePointHeight;
             Vector3 direction = enemyPosition - raycastOrigin;
             
-            if (Physics.Raycast(raycastOrigin, direction, out RaycastHit hit, _radius))
+            if (Physics.Raycast(raycastOrigin, direction, out RaycastHit hit, _radius, _raycastLayerMask))
                 return (1 << hit.transform.gameObject.layer) == _damageableLayerMask.value;
 
             return false;

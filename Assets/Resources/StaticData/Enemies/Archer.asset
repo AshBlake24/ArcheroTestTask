@@ -17,9 +17,9 @@ MonoBehaviour:
   _health: 5
   _damage: 1
   _speed: 2
+  _attackRate: 1.5
+  _maxShotsSeries: 3
+  _attackForce: 8
   _maxMoveDistance: 6
   _maxIdleTime: 1.5
-  _maxShotsSeries: 3
-  _attackRate: 1.5
-  _attackForce: 10
   _projectilePrefab: {fileID: 4235080937243542167, guid: 33f7bb4f2c93fd549b5c59aa586e26be, type: 3}

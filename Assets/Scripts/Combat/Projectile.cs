@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Source.Logic;
+using UnityEngine;
 
 namespace Source.Combat
 {
@@ -31,8 +32,8 @@ namespace Source.Combat
 
         private void TryDealDamage(GameObject obj)
         {
-            if (obj.TryGetComponent(out IDamageable damageable))
-                damageable.TakeDamage(_damage);
+            if (obj.TryGetComponent(out IHealth health))
+                health.TakeDamage(_damage);
         }
     }
 }

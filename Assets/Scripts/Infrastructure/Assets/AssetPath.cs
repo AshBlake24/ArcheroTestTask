@@ -6,5 +6,8 @@
         public const string HudPath = "UI/HUD";
         public const string StaticDataPath = "StaticData";
         public const string EnemySpawner = "Enemies/EnemySpawner";
+        public const string UIRootPath = "UI/UIRoot";
+        public const string CountdownTimer = "UI/CountdownTimer";
+        public const string GameConfigPath = "StaticData/GameConfig";
     }
 }

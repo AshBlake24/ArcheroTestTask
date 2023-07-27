@@ -4,6 +4,7 @@ using Source.Infrastructure.Factories;
 using Source.Infrastructure.Services;
 using Source.Infrastructure.Services.Input;
 using Source.Infrastructure.Services.StaticData;
+using Source.UI.Factory;
 
 namespace Source.Infrastructure.States
 {
@@ -12,12 +13,15 @@ namespace Source.Infrastructure.States
         private const string InitialScene = "Initial";
         
         private readonly IGameStateMachine _gameStateMachine;
+        private readonly ICoroutineRunner _coroutineRunner;
         private readonly SceneLoader _sceneLoader;
         private readonly ServiceLocator _services;
 
-        public BootstrapState(IGameStateMachine gameStateMachine, SceneLoader sceneLoader, ServiceLocator services)
+        public BootstrapState(IGameStateMachine gameStateMachine, SceneLoader sceneLoader, ICoroutineRunner coroutineRunner,
+            ServiceLocator services)
         {
             _gameStateMachine = gameStateMachine;
+            _coroutineRunner = coroutineRunner;
             _sceneLoader = sceneLoader;
             _services = services;
 
@@ -44,6 +48,9 @@ namespace Source.Infrastructure.States
             
             _services.RegisterSingle<IEnemyBehaviourFactory>(new EnemyBehaviourFactory());
             
+            _services.RegisterSingle<IUIFactory>(new UIFactory(
+                _services.Single<IAssetProvider>()));
+            
             _services.RegisterSingle<IEnemyFactory>(new EnemyFactory(
                 _services.Single<IStaticDataService>(),
                 _services.Single<IEnemyBehaviourFactory>()));
@@ -51,7 +58,9 @@ namespace Source.Infrastructure.States
             _services.RegisterSingle<IGameFactory>(new GameFactory(
                 _services.Single<IAssetProvider>(),
                 _services.Single<IEnemyFactory>(),
-                _services.Single<IInputService>()));
+                _services.Single<IInputService>(),
+                _services.Single<IStaticDataService>(),
+                _coroutineRunner));
         }
 
         private void RegisterStaticDataService()

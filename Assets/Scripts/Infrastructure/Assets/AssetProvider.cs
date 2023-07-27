@@ -20,6 +20,14 @@ namespace Source.Infrastructure.Assets
             return Object.Instantiate(prefab, position, Quaternion.identity);
         }
         
+        public GameObject Instantiate(string path, Transform parent)
+        {
+            GameObject prefab = Resources.Load<GameObject>(path);
+            CheckGameObject(path, prefab);
+            
+            return Object.Instantiate(prefab, parent);
+        }
+        
         private static void CheckGameObject(string path, Object prefab)
         {
             if (prefab == null)

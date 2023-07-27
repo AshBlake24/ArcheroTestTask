@@ -7,5 +7,6 @@ namespace Source.Infrastructure.Assets
     {
         GameObject Instantiate(string path);
         GameObject Instantiate(string path, Vector3 position);
+        GameObject Instantiate(string path, Transform parent);
     }
 }

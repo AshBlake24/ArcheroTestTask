@@ -1,5 +1,6 @@
 using Source.Gameplay;
 using Source.Infrastructure.Services;
+using Source.Logic;
 using UnityEngine;
 
 namespace Source.Infrastructure.Factories
@@ -9,5 +10,6 @@ namespace Source.Infrastructure.Factories
         GameObject CreatePlayer(GameObject initialPoint);
         void CreateEnemySpawner(GameField gameField);
         void CreateHud();
+        Timer CreateGameStartTimer();
     }
 }

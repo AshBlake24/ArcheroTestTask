@@ -1,6 +1,8 @@
 ﻿using Source.Camera;
 using Source.Gameplay;
 using Source.Infrastructure.Factories;
+using Source.Logic;
+using Source.UI.Factory;
 using UnityEngine;
 
 namespace Source.Infrastructure.States
@@ -13,13 +15,15 @@ namespace Source.Infrastructure.States
         private readonly LoadingScreen _loadingScreen;
         private readonly SceneLoader _sceneLoader;
         private readonly IGameFactory _gameFactory;
+        private readonly IUIFactory _uiFactory;
 
         public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, LoadingScreen loadingScreen, 
-            IGameFactory gameFactory)
+            IGameFactory gameFactory, IUIFactory uiFactory)
         {
             _gameStateMachine = gameStateMachine;
             _loadingScreen = loadingScreen;
             _gameFactory = gameFactory;
+            _uiFactory = uiFactory;
             _sceneLoader = sceneLoader;
         }
 
@@ -36,16 +40,29 @@ namespace Source.Infrastructure.States
 
         private void OnLoaded()
         {
+            InitUIRoot();
+            InitGameWorld();
+
+            _gameStateMachine.Enter<GameLoopState>();
+        }
+
+        private void InitUIRoot() =>
+            _uiFactory.CreateUIRoot();
+
+        private void InitGameWorld()
+        {
             GameField gameField = GetGameField();
             GameObject player = _gameFactory.CreatePlayer(
                 gameField.GetComponentInChildren<InitialPoint>().gameObject);
-            
+            Timer gameStartTimer = _gameFactory.CreateGameStartTimer();
+
             _gameFactory.CreateHud();
-            _gameFactory.CreateEnemySpawner(gameField); 
+            _gameFactory.CreateEnemySpawner(gameField);
+            _uiFactory.CreateCountdownTimer(gameStartTimer);
             
             CameraFollow(player.transform);
-
-            _gameStateMachine.Enter<GameLoopState>();
+            
+            gameStartTimer.Start();
         }
 
         private void CameraFollow(Transform target)

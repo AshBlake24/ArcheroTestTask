@@ -9,7 +9,8 @@ namespace Source.Infrastructure
 
         public Game(ICoroutineRunner coroutineRunner, LoadingScreen loadingScreen)
         {
-            StateMachine = new GameStateMachine(new SceneLoader(coroutineRunner), loadingScreen, ServiceLocator.Container);
+            StateMachine = new GameStateMachine(new SceneLoader(coroutineRunner), loadingScreen, coroutineRunner,
+                ServiceLocator.Container);
         }
     }
 }

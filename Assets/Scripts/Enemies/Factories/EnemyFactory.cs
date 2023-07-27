@@ -4,6 +4,8 @@ using System.Linq;
 using Source.Behaviour;
 using Source.Enemies.Data;
 using Source.Infrastructure.Services.StaticData;
+using Source.Logic;
+using Source.UI;
 using UnityEngine;
 using Object = UnityEngine.Object;
 using Random = UnityEngine.Random;
@@ -50,18 +52,35 @@ namespace Source.Enemies.Factories
         {
             Enemy enemy = Object.Instantiate(enemyData.Prefab, spawnPoint, Quaternion.identity, parent)
                 .GetComponent<Enemy>();
-            
-            enemy.GetComponentInChildren<EnemyHealth>()
-                .Construct(enemyData.Health);
 
-            StateMachine stateMachine = GetEnemyBehaviour(enemyData, target, enemy);
-
-            enemy.Construct(stateMachine);
+            ConstructHealthBar(enemyData, enemy);
+            TryConstructHurtZone(enemyData, enemy);
+            ConstructEnemyBehaviour(enemyData, target, enemy);
 
             return enemy;
         }
 
-        private StateMachine GetEnemyBehaviour(EnemyStaticData enemyData, Transform target, Enemy enemy) =>
-            _enemyBehaviourFactory.CreateEnemyBehaviour(enemyData, target, enemy);
+        private void ConstructEnemyBehaviour(EnemyStaticData enemyData, Transform target, Enemy enemy)
+        {
+            StateMachine stateMachine = _enemyBehaviourFactory.CreateEnemyBehaviour(enemyData, target, enemy);
+            enemy.Construct(stateMachine);
+        }
+
+        private static void ConstructHealthBar(EnemyStaticData enemyData, Enemy enemy)
+        {
+            IHealth health = enemy.GetComponentInChildren<IHealth>();
+            health.Construct(enemyData.Health);
+
+            enemy.GetComponent<ActorUI>()
+                .Construct(health);
+        }
+
+        private static void TryConstructHurtZone(EnemyStaticData enemyData, Enemy enemy)
+        {
+            EnemyHurtZone enemyHurtZone = enemy.GetComponent<EnemyHurtZone>();
+
+            if (enemyHurtZone != null)
+                enemyHurtZone.Construct(enemyData.Damage, enemyData.AttackRate);
+        }
     }
 }

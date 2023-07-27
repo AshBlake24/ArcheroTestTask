@@ -37,6 +37,9 @@ namespace Source.Infrastructure.Factories
             _player = _assetProvider.Instantiate(AssetPath.PlayerPath, initialPoint.transform.position);
             PlayerStaticData playerData = _staticDataService.Player;
 
+            _player.GetComponentInChildren<IHealth>()
+                .Construct(playerData.Health);
+            
             _player.GetComponent<PlayerMovement>()
                 .Construct(_inputService, playerData.MovementSpeed);
             

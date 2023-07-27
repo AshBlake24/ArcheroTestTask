@@ -12,7 +12,7 @@ GameObject:
   - component: {fileID: 4579555901958636968}
   - component: {fileID: 4030198751123196896}
   - component: {fileID: 1691657534409935442}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Cube
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -108,7 +108,7 @@ GameObject:
   - component: {fileID: 5815596725973691778}
   - component: {fileID: -8332498473521771522}
   - component: {fileID: -5172188390775225319}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -196,7 +196,6 @@ MonoBehaviour:
   _aim: {fileID: -8332498473521771522}
   _shootPoint: {fileID: 6481877756949973480}
   _projectilePrefab: {fileID: 4235080937243542167, guid: 33f7bb4f2c93fd549b5c59aa586e26be, type: 3}
-  _attackRate: 0.5
 --- !u!1 &5815596725996487785
 GameObject:
   m_ObjectHideFlags: 0
@@ -208,7 +207,7 @@ GameObject:
   - component: {fileID: 5815596725996487789}
   - component: {fileID: 5815596725996487790}
   - component: {fileID: 5815596725996487791}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Model
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -288,7 +287,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6481877756949973480}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: ShootPoint
   m_TagString: Untagged
   m_Icon: {fileID: 0}

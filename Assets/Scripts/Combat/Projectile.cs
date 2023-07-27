@@ -14,10 +14,8 @@ namespace Source.Combat
         {
             _damage = damage;
             _force = force;
-        }
-        
-        private void Start() => 
             _rigidbody.AddForce(transform.forward * _force, ForceMode.Impulse);
+        }
 
         private void OnCollisionEnter(Collision collision)
         {

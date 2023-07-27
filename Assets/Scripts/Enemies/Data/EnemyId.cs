@@ -4,6 +4,6 @@
     {
         Unknown = -1,
         Bat,
-        Capsule
+        Archer
     }
 }

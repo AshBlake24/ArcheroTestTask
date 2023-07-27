@@ -9,11 +9,14 @@ MonoBehaviour:
   m_GameObject: {fileID: 0}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: f8a17d30d1b04f92bb614a2a4d13be62, type: 3}
-  m_Name: Capsule
+  m_Script: {fileID: 11500000, guid: 46dd8a56e10246798b092cee83bd7bb2, type: 3}
+  m_Name: Archer
   m_EditorClassIdentifier: 
   _id: 1
   _prefab: {fileID: 8514983872897712409, guid: 1c4b3d4fe7961bf4bb0d892126af5c65, type: 3}
   _health: 5
   _damage: 1
-  _speed: 2
+  _speed: 2.5
+  _attackRate: 1
+  _attackForce: 25
+  _projectilePrefab: {fileID: 4235080937243542167, guid: 33f7bb4f2c93fd549b5c59aa586e26be, type: 3}

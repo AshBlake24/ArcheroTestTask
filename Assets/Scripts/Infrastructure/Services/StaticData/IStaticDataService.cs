@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using Source.Gameplay;
 
 namespace Source.Infrastructure.Services.StaticData
 {
@@ -13,5 +14,7 @@ namespace Source.Infrastructure.Services.StaticData
         IEnumerable<TData> GetAllDataByType<TEnum, TData>() 
             where TEnum : Enum 
             where TData : IStaticData;
+
+        GameConfig GameConfig { get; }
     }
 }

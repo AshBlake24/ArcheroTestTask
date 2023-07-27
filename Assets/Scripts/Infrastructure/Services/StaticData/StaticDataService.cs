@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.Linq;
+using Source.Gameplay;
 using Source.Infrastructure.Assets;
 using UnityEngine;
 
@@ -10,8 +11,10 @@ namespace Source.Infrastructure.Services.StaticData
     {
         private readonly Dictionary<Type, Dictionary<Enum, IStaticData>> _data = 
             new Dictionary<Type, Dictionary<Enum, IStaticData>>();
+        
+        public GameConfig GameConfig { get; private set; }
 
-        public void Load() =>
+        public void Load() => 
             LoadAllStaticData();
 
         public TResult GetDataById<TKey, TResult>(TKey id)
@@ -56,6 +59,10 @@ namespace Source.Infrastructure.Services.StaticData
         {
             _data.Clear();
             LoadData();
+            LoadGameConfig();
         }
+        
+        private void LoadGameConfig() =>
+            GameConfig = Resources.Load<GameConfig>(AssetPath.GameConfigPath);
     }
 }

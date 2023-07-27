@@ -1,6 +1,4 @@
-﻿using System.Collections.Generic;
-using Source.Data;
-using Source.Data.Service;
+﻿using Source.Data;
 using UnityEngine;
 
 namespace Source.Infrastructure.Services.SaveLoadService
@@ -12,5 +10,6 @@ namespace Source.Infrastructure.Services.SaveLoadService
         void InformProgressReaders();
         void RegisterProgressWatchers(GameObject gameObject);
         void Cleanup();
+        void ClearProgress();
     }
 }

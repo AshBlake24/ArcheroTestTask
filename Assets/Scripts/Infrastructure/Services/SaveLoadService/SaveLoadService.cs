@@ -53,6 +53,12 @@ namespace Source.Infrastructure.Services.SaveLoadService
             _progressWriters.Clear();
         }
 
+        public void ClearProgress()
+        {
+            PlayerPrefs.DeleteAll();
+            PlayerPrefs.Save();
+        }
+
         private void Register(IProgressReader progressReader)
         {
             if (progressReader is IProgressWriter progressWriter)

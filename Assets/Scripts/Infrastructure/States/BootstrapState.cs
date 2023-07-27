@@ -13,14 +13,14 @@ namespace Source.Infrastructure.States
     public class BootstrapState : IState
     {
         private const string InitialScene = "Initial";
-        
+
         private readonly IGameStateMachine _gameStateMachine;
         private readonly ICoroutineRunner _coroutineRunner;
         private readonly SceneLoader _sceneLoader;
         private readonly ServiceLocator _services;
 
-        public BootstrapState(IGameStateMachine gameStateMachine, SceneLoader sceneLoader, ICoroutineRunner coroutineRunner,
-            ServiceLocator services)
+        public BootstrapState(IGameStateMachine gameStateMachine, SceneLoader sceneLoader,
+            ICoroutineRunner coroutineRunner, ServiceLocator services)
         {
             _gameStateMachine = gameStateMachine;
             _coroutineRunner = coroutineRunner;
@@ -39,8 +39,8 @@ namespace Source.Infrastructure.States
         {
         }
 
-        private void EnterLoadLevel() => 
-            _gameStateMachine.Enter<LoadLevelState, string>("Game");
+        private void EnterLoadLevel() =>
+            _gameStateMachine.Enter<LoadProgressState>();
 
         private void RegisterServices()
         {
@@ -49,29 +49,30 @@ namespace Source.Infrastructure.States
             _services.RegisterSingle<IInputService>(GetInputService());
             _services.RegisterSingle<ISceneLoadingService>(new SceneLoadingService(_gameStateMachine));
             _services.RegisterSingle<IEnemyBehaviourFactory>(new EnemyBehaviourFactory());
-            
+
             _services.RegisterSingle<IPersistentDataService>(new PersistentDataService(
                 _services.Single<IStaticDataService>()));
-            
+
             _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(
                 _services.Single<IPersistentDataService>()));
-            
+
             _services.RegisterSingle<IAssetProvider>(new AssetProvider(
                 _services.Single<ISaveLoadService>()));
 
             _services.RegisterSingle<IUIFactory>(new UIFactory(
                 _services.Single<IAssetProvider>()));
-            
+
             _services.RegisterSingle<IEnemyFactory>(new EnemyFactory(
                 _services.Single<IStaticDataService>(),
                 _services.Single<IEnemyBehaviourFactory>()));
-            
+
             _services.RegisterSingle<IGameFactory>(new GameFactory(
                 _services.Single<IAssetProvider>(),
                 _services.Single<IEnemyFactory>(),
                 _services.Single<IInputService>(),
                 _services.Single<IStaticDataService>(),
-                _services.Single<ISceneLoadingService>(),
+                _services.Single<ISaveLoadService>(),
+                _gameStateMachine,
                 _coroutineRunner));
         }
 
@@ -82,7 +83,7 @@ namespace Source.Infrastructure.States
             _services.RegisterSingle(staticDataService);
         }
 
-        private IInputService GetInputService() => 
+        private IInputService GetInputService() =>
             new MobileInputService();
     }
 }

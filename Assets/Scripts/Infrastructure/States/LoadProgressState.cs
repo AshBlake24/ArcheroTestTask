@@ -1,5 +1,6 @@
 using Source.Data;
 using Source.Data.Service;
+using Source.Gameplay;
 using Source.Infrastructure.Services.SaveLoadService;
 using Source.Infrastructure.Services.StaticData;
 
@@ -7,6 +8,8 @@ namespace Source.Infrastructure.States
 {
     public class LoadProgressState : IState
     {
+        
+        
         private readonly IGameStateMachine _gameStateMachine;
         private readonly IPersistentDataService _persistentDataService;
         private readonly IStaticDataService _staticDataService;
@@ -31,6 +34,8 @@ namespace Source.Infrastructure.States
             _persistentDataService.PlayerProgress =
                 _saveLoadService.LoadProgress()
                 ?? NewProgress();
+            
+            _gameStateMachine.Enter<LoadLevelState, string>(GameConfig.LevelName);
         }
 
         private PlayerProgress NewProgress()

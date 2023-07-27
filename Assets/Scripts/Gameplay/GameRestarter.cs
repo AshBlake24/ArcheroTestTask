@@ -1,7 +1,9 @@
 ﻿using System.Collections;
 using Source.Infrastructure.Events;
 using Source.Infrastructure.Services;
+using Source.Infrastructure.Services.SaveLoadService;
 using Source.Infrastructure.Services.StaticData;
+using Source.Infrastructure.States;
 using Source.Player.Components;
 using Source.Utilities;
 using UnityEngine;
@@ -10,17 +12,17 @@ namespace Source.Gameplay
 {
     public class GameRestarter : MonoBehaviour
     {
-        private const string LevelName = "Game";
-        
-        private ISceneLoadingService _sceneLoadingService;
+        private IGameStateMachine _gameStateMachine;
         private IStaticDataService _staticDataService;
+        private ISaveLoadService _saveLoadService;
         private PlayerDeath _playerDeath;
 
-        public void Construct(ISceneLoadingService sceneLoadingService, IStaticDataService staticDataService, 
-            PlayerDeath playerDeath)
+        public void Construct(IGameStateMachine gameStateMachine, IStaticDataService staticDataService, 
+            ISaveLoadService saveLoadService, PlayerDeath playerDeath)
         {
-            _sceneLoadingService = sceneLoadingService;
+            _gameStateMachine = gameStateMachine;
             _staticDataService = staticDataService;
+            _saveLoadService = saveLoadService;
             _playerDeath = playerDeath;
 
             _playerDeath.Died += OnPlayerDied;
@@ -39,7 +41,8 @@ namespace Source.Gameplay
         {
             yield return TimeUtility.GetTime(_staticDataService.GameConfig.TimeToRestart);
             
-            _sceneLoadingService.Load(LevelName);
+            _saveLoadService.ClearProgress();
+            _gameStateMachine.Enter<LoadProgressState>();
         }
     }
 }

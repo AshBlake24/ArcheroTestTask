@@ -4,7 +4,9 @@ using Source.Gameplay;
 using Source.Infrastructure.Assets;
 using Source.Infrastructure.Services;
 using Source.Infrastructure.Services.Input;
+using Source.Infrastructure.Services.SaveLoadService;
 using Source.Infrastructure.Services.StaticData;
+using Source.Infrastructure.States;
 using Source.Logic;
 using Source.Player.Components;
 using Source.Player.Data;
@@ -20,18 +22,21 @@ namespace Source.Infrastructure.Factories
         private readonly IInputService _inputService;
         private readonly IStaticDataService _staticDataService;
         private readonly ICoroutineRunner _coroutineRunner;
-        private readonly ISceneLoadingService _sceneLoadingService;
+        private readonly ISaveLoadService _saveLoadService;
+        private readonly IGameStateMachine _gameStateMachine;
         private GameObject _player;
 
         public GameFactory(IAssetProvider assetProvider, IEnemyFactory enemyFactory, IInputService inputService,
-            IStaticDataService staticDataService, ISceneLoadingService sceneLoadingService, ICoroutineRunner coroutineRunner)
+            IStaticDataService staticDataService, ISaveLoadService saveLoadService, IGameStateMachine gameStateMachine,
+            ICoroutineRunner coroutineRunner)
         {
             _assetProvider = assetProvider;
             _enemyFactory = enemyFactory;
             _inputService = inputService;
             _staticDataService = staticDataService;
             _coroutineRunner = coroutineRunner;
-            _sceneLoadingService = sceneLoadingService;
+            _saveLoadService = saveLoadService;
+            _gameStateMachine = gameStateMachine;
         }
 
         public void CreateHud() => _assetProvider.InstantiateRegistered(AssetPath.HudPath);
@@ -60,7 +65,7 @@ namespace Source.Infrastructure.Factories
         public void CreateGameRestarter() =>
             _assetProvider.Instantiate(AssetPath.GameRestarterPath)
                 .GetComponent<GameRestarter>()
-                .Construct(_sceneLoadingService, _staticDataService, _player.GetComponent<PlayerDeath>());
+                .Construct(_gameStateMachine, _staticDataService, _saveLoadService, _player.GetComponent<PlayerDeath>());
 
         private void ConstructPlayerComponents(PlayerStaticData playerData)
         {

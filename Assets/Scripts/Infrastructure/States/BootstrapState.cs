@@ -43,6 +43,7 @@ namespace Source.Infrastructure.States
         private void RegisterServices()
         {
             RegisterStaticDataService();
+            _services.RegisterSingle<IGameStateMachine>(_gameStateMachine);
             _services.RegisterSingle<IInputService>(GetInputService());
             _services.RegisterSingle<IAssetProvider>(new AssetProvider());
             

@@ -17,16 +17,16 @@ namespace Source.Enemies
             _damage = damage;
             _attackRate = attackRate;
             
-            _triggerObserver.TriggerEnter += OnEntered;
+            _triggerObserver.TriggerStayed += OnStayed;
         }
 
         private void OnDestroy() => 
-            _triggerObserver.TriggerEnter -= OnEntered;
+            _triggerObserver.TriggerStayed -= OnStayed;
 
         private void Update() => 
             _elapsedTime += Time.deltaTime;
 
-        private void OnEntered(Collider other)
+        private void OnStayed(Collider other)
         {
             if (_elapsedTime < _attackRate)
                 return;

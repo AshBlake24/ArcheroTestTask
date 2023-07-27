@@ -46,12 +46,12 @@ namespace Source.Infrastructure.Events
             SubscribersList<IGlobalSubscriber> subscribersList = s_subscribers[typeof(TSubscriber)];
             
             subscribersList.StartExecuting();
-            
-            foreach (IGlobalSubscriber subscriber in subscribersList.Subscribers)
+
+            for (int i = 0; i < subscribersList.Subscribers.Count; i++)
             {
                 try
                 {
-                    action.Invoke(subscriber as TSubscriber);
+                    action.Invoke(subscribersList.Subscribers[i] as TSubscriber);
                 }
                 catch (Exception e)
                 {

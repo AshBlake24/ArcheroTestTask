@@ -1,5 +1,6 @@
 ﻿using Source.Enemies.Factories;
 using Source.Gameplay;
+using Source.Infrastructure.Events;
 using UnityEngine;
 using Random = UnityEngine.Random;
 
@@ -24,8 +25,6 @@ namespace Source.Enemies
         private GameField _gameField;
         private Transform _target;
         private Bounds _spawnAreaBounds;
-
-        public int AliveEnemies => s_aliveEnemies;
 
         public void Construct(IEnemyFactory enemyFactory, Transform player, GameField gameField)
         {
@@ -98,6 +97,9 @@ namespace Source.Enemies
             enemy.Died -= OnEnemyDied;
             
             s_aliveEnemies--;
+            
+            if (s_aliveEnemies <= 0)
+                EventBus.RaiseEvent<IStageClearHandler>(h => h.OnStageCleared());
         }
     }
 }

@@ -6,6 +6,7 @@ namespace Source.Player.Components
     public class PlayerDeath : MonoBehaviour
     {
         [SerializeField] private PlayerHealth _health;
+        [SerializeField] private GameObject _deathVFX;
 
         public event Action<PlayerDeath> Died;
 
@@ -21,6 +22,15 @@ namespace Source.Player.Components
                 Die();
         }
 
-        private void Die() => Died?.Invoke(this);
+        private void Die()
+        {
+            Died?.Invoke(this);
+            
+            SpawnDeathFx();
+            Destroy(gameObject);
+        }
+
+        private void SpawnDeathFx() => 
+            Instantiate(_deathVFX, transform.position, Quaternion.identity);
     }
 }

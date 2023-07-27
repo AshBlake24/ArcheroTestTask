@@ -1,11 +1,10 @@
 ﻿using System;
-using Source.Combat;
 using Source.Logic;
 using UnityEngine;
 
-namespace Source.Enemies
+namespace Source.Player.Components
 {
-    public class EnemyHealth : MonoBehaviour, IDamageable, IHealth
+    public class PlayerHealth : MonoBehaviour, IHealth
     {
         private int _maxValue;
         private int _currentValue;
@@ -31,7 +30,7 @@ namespace Source.Enemies
             if (damage < 0)
                 throw new ArgumentOutOfRangeException(nameof(damage), "Damage must not be less than 0");
 
-            _currentValue = Mathf.Max(_currentValue - damage, 0);
+            _currentValue = Mathf.Max(CurrentValue - damage, 0);
             
             HealthChanged?.Invoke();
         }

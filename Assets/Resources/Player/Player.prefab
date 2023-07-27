@@ -108,6 +108,7 @@ GameObject:
   - component: {fileID: 5815596725973691778}
   - component: {fileID: -8332498473521771522}
   - component: {fileID: -5172188390775225319}
+  - component: {fileID: 1182975080360783611}
   m_Layer: 9
   m_Name: Player
   m_TagString: Untagged
@@ -197,6 +198,20 @@ MonoBehaviour:
   _aim: {fileID: -8332498473521771522}
   _shootPoint: {fileID: 6481877756949973480}
   _projectilePrefab: {fileID: 4235080937243542167, guid: 33f7bb4f2c93fd549b5c59aa586e26be, type: 3}
+--- !u!114 &1182975080360783611
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 5815596725973691779}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0537111f2b68453685152745610729b5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  _health: {fileID: 1283146916516102168}
+  _timeToDestroy: 3
 --- !u!1 &5815596725996487785
 GameObject:
   m_ObjectHideFlags: 0
@@ -289,6 +304,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1983083018880428596}
   - component: {fileID: 1519779170862169452}
+  - component: {fileID: 1283146916516102168}
   m_Layer: 10
   m_Name: Health
   m_TagString: Untagged
@@ -324,6 +340,18 @@ CapsuleCollider:
   m_Height: 1.6
   m_Direction: 1
   m_Center: {x: 0, y: 0.8, z: 0}
+--- !u!114 &1283146916516102168
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6957190567344521735}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 3d8a0937ccb24178b35b2d71b7ad471d, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &7972127265865813243
 GameObject:
   m_ObjectHideFlags: 0

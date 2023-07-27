@@ -13,6 +13,7 @@ namespace Source.Enemies.Data
         [SerializeField, Min(0)] private float _speed;
         [SerializeField, Min(0)] private float _maxMoveDistance;
         [SerializeField, Min(0)] private float _maxIdleTime;
+        [SerializeField, Min(0)] private float _attackRate;
 
         public Enum Key => _id;
         public EnemyId Id => _id;
@@ -22,5 +23,6 @@ namespace Source.Enemies.Data
         public float Speed => _speed;
         public float MaxMoveDistance => _maxMoveDistance;
         public float MaxIdleTime => _maxIdleTime;
+        public float AttackRate => _attackRate;
     }
 }

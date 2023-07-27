@@ -1,3 +1,4 @@
+using Source.Data.Service;
 using Source.Enemies.Factories;
 using Source.Infrastructure.Assets;
 using Source.Infrastructure.Factories;
@@ -47,9 +48,11 @@ namespace Source.Infrastructure.States
             _services.RegisterSingle<IInputService>(GetInputService());
             _services.RegisterSingle<IAssetProvider>(new AssetProvider());
             _services.RegisterSingle<ISceneLoadingService>(new SceneLoadingService(_gameStateMachine));
-            
             _services.RegisterSingle<IEnemyBehaviourFactory>(new EnemyBehaviourFactory());
-            
+
+            _services.RegisterSingle<IPersistentDataService>(new PersistentDataService(
+                _services.Single<IStaticDataService>()));
+
             _services.RegisterSingle<IUIFactory>(new UIFactory(
                 _services.Single<IAssetProvider>()));
             

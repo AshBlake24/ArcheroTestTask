@@ -68,7 +68,7 @@ namespace Source.Enemies.Factories
 
         private static void ConstructHealthBar(EnemyStaticData enemyData, Enemy enemy)
         {
-            IHealth health = enemy.GetComponentInChildren<IHealth>();
+            EnemyHealth health = enemy.GetComponentInChildren<EnemyHealth>();
             health.Construct(enemyData.Health);
 
             enemy.GetComponent<ActorUI>()

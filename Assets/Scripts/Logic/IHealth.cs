@@ -8,8 +8,7 @@ namespace Source.Logic
         
         int CurrentValue { get; }
         int MaxValue { get; }
-
-        void Construct(int health);
+        
         void TakeDamage(int damage);
     }
 }

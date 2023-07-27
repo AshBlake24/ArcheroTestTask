@@ -41,7 +41,6 @@ namespace Source.Infrastructure.Factories
             _player = _assetProvider.Instantiate(AssetPath.PlayerPath, initialPoint.transform.position);
             PlayerStaticData playerData = _staticDataService.Player;
 
-            ConstructHealthBar(playerData);
             ConstructPlayerComponents(playerData);
 
             return _player;
@@ -63,15 +62,6 @@ namespace Source.Infrastructure.Factories
                 .GetComponent<GameRestarter>()
                 .Construct(_sceneLoadingService, _staticDataService, _player.GetComponent<PlayerDeath>());
 
-        private void ConstructHealthBar(PlayerStaticData playerData)
-        {
-            IHealth health = _player.GetComponentInChildren<IHealth>();
-            health.Construct(playerData.Health);
-
-            _player.GetComponent<ActorUI>()
-                .Construct(health);
-        }
-
         private void ConstructPlayerComponents(PlayerStaticData playerData)
         {
             _player.GetComponent<PlayerMovement>()
@@ -82,6 +72,9 @@ namespace Source.Infrastructure.Factories
 
             _player.GetComponent<PlayerShooter>()
                 .Construct(_inputService, playerData.AttackRate, playerData.AttackForce, playerData.Damage, playerData.ProjectilePrefab);
+            
+            _player.GetComponent<ActorUI>()
+                .Construct(_player.GetComponentInChildren<PlayerHealth>());
         }
     }
 }

@@ -9,7 +9,7 @@ namespace Source.Behaviour.States
     {
         private const float SmoothTime = 0.05f;
         private const float FirePointHeight = 0.75f;
-        private const string PlayerLayer = "Player";
+        private const string DamageableLayer = "Damageable";
 
         private readonly RangedEnemy _enemy;
         private readonly Transform _target;
@@ -17,7 +17,7 @@ namespace Source.Behaviour.States
 
         private float _elapsedTime;
         private float _currentVelocity;
-        private LayerMask _playerLayerMask;
+        private LayerMask _damageableLayerMask;
         
         public float IdleTime { get; private set; }
 
@@ -26,20 +26,21 @@ namespace Source.Behaviour.States
             _enemy = enemy;
             _target = target;
             _enemyData = enemyData;
-            _playerLayerMask = LayerMask.NameToLayer(PlayerLayer);
+            _damageableLayerMask = LayerMask.NameToLayer(DamageableLayer);
         }
         
         public void Tick()
         {
-            _elapsedTime += Time.deltaTime;
-            
             if (LineOfFireIsFree(_target.position) == false)
             {
                 IdleTime += Time.deltaTime;
+                _elapsedTime = 0;
                 return;
             }
             
             RotateTowardsTarget();
+            
+            _elapsedTime += Time.deltaTime;
             
             if (_elapsedTime >= _enemyData.AttackRate)
             {
@@ -81,7 +82,7 @@ namespace Source.Behaviour.States
             Vector3 direction = targetPosition - raycastOrigin;
             
             if (Physics.Raycast(raycastOrigin, direction, out RaycastHit hit))
-                return hit.transform.gameObject.layer == _playerLayerMask.value;
+                return hit.transform.gameObject.layer == _damageableLayerMask.value;
 
             return false;
         }

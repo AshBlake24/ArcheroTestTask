@@ -61,7 +61,7 @@ namespace Source.Player.Components
                 _colliders,
                 _damageableLayerMask);
 
-            if (collidersInArea > 0)
+            if (collidersInArea > 1)
                 FindClosestTarget();
         }
 

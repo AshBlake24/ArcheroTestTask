@@ -28,7 +28,22 @@ namespace Source.Enemies.Factories
             navMeshAgent.enabled = false;
 
             var rangeAttack = new RangeAttack(enemy, target, enemyData);
+            var moveToRandomPoint = new MoveAgentToRandomPoint(navMeshAgent, enemy.transform, enemyData);
             //var idle = new IdleState();
+
+            stateMachine.AddTransition(
+                from: moveToRandomPoint, 
+                to: rangeAttack, 
+                TransitionConditions.ReachedDestination(moveToRandomPoint));
+            
+            stateMachine.AddTransition(
+                from: rangeAttack, 
+                to: moveToRandomPoint, TransitionConditions.LastShotInSeries(rangeAttack));
+            
+            stateMachine.AddTransition(
+                from: rangeAttack, 
+                to: moveToRandomPoint, 
+                TransitionConditions.IdleForAWhile(rangeAttack, enemyData.MaxIdleTime));
 
             stateMachine.SetState(rangeAttack);
 
@@ -46,8 +61,15 @@ namespace Source.Enemies.Factories
             DashTimer dashTimer = enemy.GetComponent<DashTimer>();
             dashTimer.Construct(enemyData.DashDuration, enemyData.DashRate);
 
-            stateMachine.AddTransition(moveTowardsTarget, dash, TransitionConditions.DashStarted(dashTimer));
-            stateMachine.AddTransition(dash, moveTowardsTarget, TransitionConditions.DashTimerIsOut(dashTimer));
+            stateMachine.AddTransition(
+                from: moveTowardsTarget, 
+                to: dash, 
+                TransitionConditions.DashStarted(dashTimer));
+            
+            stateMachine.AddTransition(
+                from: dash, 
+                to: moveTowardsTarget, 
+                TransitionConditions.DashTimerIsOut(dashTimer));
             
             stateMachine.SetState(moveTowardsTarget);
 

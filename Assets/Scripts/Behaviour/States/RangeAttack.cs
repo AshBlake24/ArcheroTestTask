@@ -20,6 +20,8 @@ namespace Source.Behaviour.States
         private LayerMask _damageableLayerMask;
         
         public float IdleTime { get; private set; }
+        public int Shots { get; private set; }
+        public int MaxShotsInSeries { get; set; }
 
         public RangeAttack(RangedEnemy enemy, Transform target, ArcherStaticData enemyData)
         {
@@ -47,13 +49,16 @@ namespace Source.Behaviour.States
                 Shoot();
                 _elapsedTime = 0;
                 IdleTime = 0;
+                Shots++;
             }
         }
 
         public void OnEnter()
         {
+            Shots = 0;
             IdleTime = 0;
             _elapsedTime = 0;
+            MaxShotsInSeries = Random.Range(1, _enemyData.MaxShotsSeries);
         }
 
         public void OnExit() { }

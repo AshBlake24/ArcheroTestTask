@@ -1,6 +1,7 @@
-﻿using System.Timers;
+﻿using Source.Combat;
 using Source.Enemies;
 using Source.Enemies.Data;
+using Source.Utilities;
 using UnityEngine;
 
 namespace Source.Behaviour.States
@@ -11,6 +12,7 @@ namespace Source.Behaviour.States
         private const float FirePointHeight = 0.75f;
         private const string DamageableLayer = "Damageable";
 
+        private readonly ObjectPool<Projectile> _projectilesPool;
         private readonly RangedEnemy _enemy;
         private readonly Transform _target;
         private readonly ArcherStaticData _enemyData;
@@ -28,6 +30,7 @@ namespace Source.Behaviour.States
             _enemy = enemy;
             _target = target;
             _enemyData = enemyData;
+            _projectilesPool = new ObjectPool<Projectile>(enemyData.ProjectilePrefab.gameObject);
             _damageableLayerMask = LayerMask.NameToLayer(DamageableLayer);
         }
         
@@ -65,8 +68,10 @@ namespace Source.Behaviour.States
         
         private void Shoot()
         {
-            Object.Instantiate(_enemyData.ProjectilePrefab, _enemy.ShootPoint.position, _enemy.ShootPoint.rotation)
-                .Init(_enemyData.Damage, _enemyData.AttackForce);
+            Projectile projectile = _projectilesPool.Get();
+            projectile.transform.SetPositionAndRotation(_enemy.ShootPoint.position, _enemy.ShootPoint.rotation);
+            projectile.gameObject.SetActive(true);
+            projectile.Init(_enemyData.Damage, _enemyData.AttackForce);
         }
 
         private void RotateTowardsTarget()

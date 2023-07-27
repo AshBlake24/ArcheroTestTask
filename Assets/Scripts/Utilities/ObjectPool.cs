@@ -1,17 +1,17 @@
 ﻿using System;
 using System.Collections.Generic;
+using Source.Combat;
 using UnityEngine;
 using Object = UnityEngine.Object;
 
 namespace Source.Utilities
 {
-    public class ObjectPool<T> where T : Component
+    public class ObjectPool<T> where T : Component, IPoolable<T>
     {
         private readonly GameObject _prefab;
-        private readonly Transform _container;
         private readonly Queue<T> _pool = new Queue<T>();
         
-        private static Transform s_generalPoolsContainer;
+        private static Transform s_container;
 
         public ObjectPool(GameObject prefab)
         {
@@ -20,34 +20,34 @@ namespace Source.Utilities
 
             if (prefab.GetComponent<T>() == null)
                 throw new ArgumentNullException(nameof(T));
-
-            if (s_generalPoolsContainer == null)
-                s_generalPoolsContainer = new GameObject($"Pools").transform;
             
             _prefab = prefab;
-
-            _container = new GameObject($"Pool - {_prefab.name}").transform;
-            _container.SetParent(s_generalPoolsContainer);
+            
+            if (s_container == null)
+                s_container = new GameObject($"Pool - {_prefab.name}").transform;
+            
+            s_container.SetParent(Helpers.GetGeneralPoolsContainer());
         }
 
-        public void AddInstance(T instance)
+        public void Release(T instance)
         {
-            if (instance.transform.parent != _container)
-                instance.transform.SetParent(_container);
+            if (instance.transform.parent != s_container)
+                instance.transform.SetParent(s_container);
 
             instance.gameObject.SetActive(false);
             
             _pool.Enqueue(instance);
         }
 
-        public T GetInstance() => _pool.Count <= 0 
+        public T Get() => _pool.Count <= 0 
             ? CreateInstance() 
             : _pool.Dequeue();
 
         private T CreateInstance()
         {
-            GameObject instance = Object.Instantiate(_prefab, _container);
+            GameObject instance = Object.Instantiate(_prefab, s_container);
             T instanceComponent = instance.GetComponent<T>();
+            instanceComponent.SetPool(this);
             return instanceComponent;
         }
     }

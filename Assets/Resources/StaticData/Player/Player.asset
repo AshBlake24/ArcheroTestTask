@@ -17,3 +17,4 @@ MonoBehaviour:
   _attackRate: 0.5
   _attackForce: 25
   _movementSpeed: 4
+  _projectilePrefab: {fileID: 4235080937243542167, guid: 33f7bb4f2c93fd549b5c59aa586e26be, type: 3}

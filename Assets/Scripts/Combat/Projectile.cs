@@ -1,15 +1,17 @@
 ﻿using Source.Logic;
+using Source.Utilities;
 using UnityEngine;
 
 namespace Source.Combat
 {
     [RequireComponent(typeof(Rigidbody))]
-    public class Projectile : MonoBehaviour
+    public class Projectile : MonoBehaviour, IPoolable<Projectile>
     {
         [SerializeField] private Rigidbody _rigidbody;
 
         private int _damage;
         private float _force;
+        private ObjectPool<Projectile> _projectilesPool;
 
         public void Init(int damage, float force)
         {
@@ -19,16 +21,13 @@ namespace Source.Combat
             _rigidbody.AddForce(transform.forward * _force, ForceMode.Impulse);
         }
 
-        private void OnCollisionEnter(Collision collision)
-        {
-            TryDealDamage(collision.gameObject);
-            Destroy(gameObject);
-        }
+        public void SetPool(ObjectPool<Projectile> projectilesPool) => 
+            _projectilesPool = projectilesPool;
 
         private void OnTriggerEnter(Collider other)
         {
             TryDealDamage(other.gameObject);
-            Destroy(gameObject);
+            _projectilesPool.Release(this);
         }
 
         private void TryDealDamage(GameObject obj)

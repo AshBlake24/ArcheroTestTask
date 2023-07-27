@@ -54,7 +54,7 @@ namespace Source.Player.Components
 
         private void Shoot()
         {
-            Projectile projectile = _projectilesPool.GetInstance();
+            Projectile projectile = _projectilesPool.Get();
             projectile.transform.SetPositionAndRotation(_shootPoint.position, _shootPoint.rotation);
             projectile.gameObject.SetActive(true);
             projectile.Init(_damage, _attackForce);

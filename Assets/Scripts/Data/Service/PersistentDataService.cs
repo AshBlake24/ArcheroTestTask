@@ -13,10 +13,11 @@ namespace Source.Data.Service
         }
 
         public PlayerProgress PlayerProgress { get; set; }
-        
 
         public void Reset()
         {
+            PlayerProgress.State.Reset();
+            PlayerProgress.Balance.Reset();
         }
     }
 }

@@ -3,27 +3,33 @@ using UnityEngine.AI;
 
 namespace Source.Behaviour.States
 {
-    public class MoveAgentToTarget : MoveToTarget
+    public class MoveAgentToTarget : IState
     {
         private readonly NavMeshAgent _navMeshAgent;
+        private readonly Transform _target;
+        private readonly Transform _self;
+        private readonly float _speed;
 
-        public MoveAgentToTarget(NavMeshAgent navMeshAgent, Transform target, Transform self, float speed) 
-            : base(target, self, speed)
+        public MoveAgentToTarget(NavMeshAgent navMeshAgent, Transform target, Transform self, float speed)
         {
             _navMeshAgent = navMeshAgent;
+            _target = target;
+            _self = self;
+            _speed = speed;
         }
 
-        public override void Tick() => 
-            _navMeshAgent.SetDestination(Target.position);
+        public float RemainingDistance => Vector3.Distance(_self.position, _target.position);
 
-        public override void OnExit() => 
+        public void Tick() => 
+            _navMeshAgent.SetDestination(_target.position);
+
+        public void OnExit() => 
             _navMeshAgent.enabled = false;
 
-        public override void OnEnter()
+        public void OnEnter()
         {
-            base.OnEnter();
             _navMeshAgent.enabled = true;
-            _navMeshAgent.speed = CurrentSpeed;
+            _navMeshAgent.speed = _speed;
         }
     }
 }

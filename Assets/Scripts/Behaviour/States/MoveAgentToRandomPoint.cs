@@ -18,8 +18,8 @@ namespace Source.Behaviour.States
         public MoveAgentToRandomPoint(NavMeshAgent navMeshAgent, Transform self, ArcherStaticData enemyData)
         {
             _navMeshAgent = navMeshAgent;
-            Self = self;
             _enemyData = enemyData;
+            Self = self;
         }
 
         public void Tick()
@@ -27,10 +27,7 @@ namespace Source.Behaviour.States
             if (Destination == Vector3.zero)
                 SetDestination();
             else
-            {
-                Debug.Log("Set Destination To: " + Destination);
                 _navMeshAgent.SetDestination(Destination);
-            }
         }
 
         public void OnExit() => 

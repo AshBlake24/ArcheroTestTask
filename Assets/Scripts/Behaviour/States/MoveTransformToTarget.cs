@@ -2,34 +2,47 @@ using UnityEngine;
 
 namespace Source.Behaviour.States
 {
-    public class MoveTransformToTarget : MoveToTarget
+    public class MoveTransformToTarget : IState
     {
         private const float SmoothTime = 0.05f;
         
+        private readonly Transform _target;
+        private readonly Transform _self;
+        private readonly float _speed;
+
         private float _currentVelocity;
         private Vector3 _direction;
 
-        public MoveTransformToTarget(Transform target, Transform self, float speed) : base(target, self, speed) { }
+        public MoveTransformToTarget(Transform target, Transform self, float speed)
+        {
+            _target = target;
+            _self = self;
+            _speed = speed;
+        }
 
-        public override void Tick()
+        public void Tick()
         {
             GetDirection();
             Move();
             RotateTowardsTarget();
         }
 
+        public void OnEnter() { }
+
+        public void OnExit() { }
+
         private void GetDirection() => 
-            _direction = (Target.position - Self.position).normalized;
+            _direction = (_target.position - _self.position).normalized;
 
         private void Move() => 
-            Self.position += _direction * CurrentSpeed * Time.deltaTime;
+            _self.position += _direction * _speed * Time.deltaTime;
 
         private void RotateTowardsTarget()
         {
             float rotationAngle = Mathf.Atan2(_direction.x, _direction.z) * Mathf.Rad2Deg;
-            float rotationAngleSmooth = Mathf.SmoothDampAngle(Self.eulerAngles.y, rotationAngle, ref _currentVelocity, SmoothTime);
+            float rotationAngleSmooth = Mathf.SmoothDampAngle(_self.eulerAngles.y, rotationAngle, ref _currentVelocity, SmoothTime);
 
-            Self.rotation = Quaternion.Euler(0, rotationAngleSmooth, 0);
+            _self.rotation = Quaternion.Euler(0, rotationAngleSmooth, 0);
         }
     }
 }

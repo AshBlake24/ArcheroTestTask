@@ -1,6 +1,7 @@
 ﻿using Source.Camera;
 using Source.Gameplay;
 using Source.Infrastructure.Factories;
+using Source.Infrastructure.Services.SaveLoadService;
 using Source.Logic;
 using Source.UI.Factory;
 using UnityEngine;
@@ -16,14 +17,16 @@ namespace Source.Infrastructure.States
         private readonly SceneLoader _sceneLoader;
         private readonly IGameFactory _gameFactory;
         private readonly IUIFactory _uiFactory;
+        private readonly ISaveLoadService _saveLoadService;
 
         public LoadLevelState(GameStateMachine gameStateMachine, SceneLoader sceneLoader, LoadingScreen loadingScreen, 
-            IGameFactory gameFactory, IUIFactory uiFactory)
+            IGameFactory gameFactory, IUIFactory uiFactory, ISaveLoadService saveLoadService)
         {
             _gameStateMachine = gameStateMachine;
             _loadingScreen = loadingScreen;
             _gameFactory = gameFactory;
             _uiFactory = uiFactory;
+            _saveLoadService = saveLoadService;
             _sceneLoader = sceneLoader;
         }
 
@@ -42,6 +45,7 @@ namespace Source.Infrastructure.States
         {
             InitUIRoot();
             InitGameWorld();
+            InformProgressReaders();
 
             _gameStateMachine.Enter<GameLoopState>();
         }
@@ -72,6 +76,12 @@ namespace Source.Infrastructure.States
                 .GetComponent<CameraFollow>()
                 .SetTarget(target);
         }
+        
+        private void InformProgressReaders() =>
+            _saveLoadService.InformProgressReaders();
+        
+        private void Cleanup() => 
+            _saveLoadService.Cleanup();
 
         private static GameField GetGameField() =>
             GameObject.FindWithTag(GameFieldTag).GetComponent<GameField>();

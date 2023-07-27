@@ -34,11 +34,11 @@ namespace Source.Infrastructure.Factories
             _sceneLoadingService = sceneLoadingService;
         }
 
-        public void CreateHud() => _assetProvider.Instantiate(AssetPath.HudPath);
+        public void CreateHud() => _assetProvider.InstantiateRegistered(AssetPath.HudPath);
 
         public GameObject CreatePlayer(GameObject initialPoint)
         {
-            _player = _assetProvider.Instantiate(AssetPath.PlayerPath, initialPoint.transform.position);
+            _player = _assetProvider.InstantiateRegistered(AssetPath.PlayerPath, initialPoint.transform.position);
             PlayerStaticData playerData = _staticDataService.Player;
 
             ConstructPlayerComponents(playerData);

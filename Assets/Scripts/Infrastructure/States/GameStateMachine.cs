@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
+using Source.Data.Service;
 using Source.Infrastructure.Factories;
 using Source.Infrastructure.Services;
+using Source.Infrastructure.Services.SaveLoadService;
+using Source.Infrastructure.Services.StaticData;
 using Source.UI.Factory;
 
 namespace Source.Infrastructure.States
@@ -17,8 +20,12 @@ namespace Source.Infrastructure.States
             _states = new Dictionary<Type, IExitableState>()
             {
                 [typeof(BootstrapState)] = new BootstrapState(this, sceneLoader, coroutineRunner, services),
+                [typeof(LoadProgressState)] = new LoadProgressState(this, services.Single<IPersistentDataService>(),
+                    services.Single<IStaticDataService>(), services.Single<ISaveLoadService>()),
+                
                 [typeof(LoadLevelState)] = new LoadLevelState(this, sceneLoader, loadingScreen, 
-                    services.Single<IGameFactory>(), services.Single<IUIFactory>()),
+                    services.Single<IGameFactory>(), services.Single<IUIFactory>(), services.Single<ISaveLoadService>()),
+                
                 [typeof(GameLoopState)] = new GameLoopState(this),
             };
         }

@@ -4,6 +4,7 @@ using Source.Infrastructure.Assets;
 using Source.Infrastructure.Factories;
 using Source.Infrastructure.Services;
 using Source.Infrastructure.Services.Input;
+using Source.Infrastructure.Services.SaveLoadService;
 using Source.Infrastructure.Services.StaticData;
 using Source.UI.Factory;
 
@@ -46,12 +47,17 @@ namespace Source.Infrastructure.States
             RegisterStaticDataService();
             _services.RegisterSingle<IGameStateMachine>(_gameStateMachine);
             _services.RegisterSingle<IInputService>(GetInputService());
-            _services.RegisterSingle<IAssetProvider>(new AssetProvider());
             _services.RegisterSingle<ISceneLoadingService>(new SceneLoadingService(_gameStateMachine));
             _services.RegisterSingle<IEnemyBehaviourFactory>(new EnemyBehaviourFactory());
-
+            
             _services.RegisterSingle<IPersistentDataService>(new PersistentDataService(
                 _services.Single<IStaticDataService>()));
+            
+            _services.RegisterSingle<ISaveLoadService>(new SaveLoadService(
+                _services.Single<IPersistentDataService>()));
+            
+            _services.RegisterSingle<IAssetProvider>(new AssetProvider(
+                _services.Single<ISaveLoadService>()));
 
             _services.RegisterSingle<IUIFactory>(new UIFactory(
                 _services.Single<IAssetProvider>()));

@@ -51,6 +51,6 @@ MonoBehaviour:
     m_Bits: 1024
   _distanceToObstacle: 1
   _distanceToEnemies: 3
-  _minEnemiesCount: 1
-  _maxEnemiesCount: 1
+  _minEnemiesCount: 3
+  _maxEnemiesCount: 4
   _attemptsToGetPoint: 10

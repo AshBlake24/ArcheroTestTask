@@ -17,7 +17,7 @@ MonoBehaviour:
   _health: 5
   _damage: 1
   _speed: 2
-  _attackRate: 1.5
+  _attackRate: 1.15
   _maxShotsSeries: 3
   _attackForce: 8
   _maxMoveDistance: 6

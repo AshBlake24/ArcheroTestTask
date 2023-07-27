@@ -17,7 +17,7 @@ MonoBehaviour:
   _health: 5
   _damage: 1
   _speed: 0.5
-  _attackRate: 0.5
+  _attackRate: 0.75
   _dashSpeed: 4
   _dashDuration: 1
   _dashRate: 2

@@ -5,7 +5,7 @@ using UnityEngine;
 
 namespace Source.Enemies
 {
-    public class Enemy : MonoBehaviour, IStartGameHandler
+    public class Enemy : MonoBehaviour, IStartGameHandler, IGameOverHandler
     {
         private StateMachine _stateMachine;
         private bool _isActive;
@@ -27,5 +27,8 @@ namespace Source.Enemies
 
         public void OnGameStarted() => 
             _isActive = true;
+
+        public void OnGameOver() => 
+            _isActive = false;
     }
 }

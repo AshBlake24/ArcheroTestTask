@@ -6,7 +6,9 @@ namespace Source.Gameplay
     public class GameConfig : ScriptableObject
     {
         [SerializeField] private int _secondsBeforeGameStart;
+        [SerializeField] private int _timeToRestart;
 
         public int SecondsBeforeGameStart => _secondsBeforeGameStart;
+        public float TimeToRestart => _timeToRestart;
     }
 }

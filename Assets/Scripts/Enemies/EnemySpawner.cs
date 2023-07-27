@@ -10,8 +10,6 @@ namespace Source.Enemies
     {
         private readonly Collider[] _obstacleHits = new Collider[3];
         private readonly Collider[] _enemiesHits = new Collider[1];
-        
-        private static int s_aliveEnemies;
 
         [SerializeField] private LayerMask _obstaclesLayerMask;
         [SerializeField] private LayerMask _enemiesLayerMask;
@@ -20,18 +18,20 @@ namespace Source.Enemies
         [SerializeField, Min(0)] private int _minEnemiesCount;
         [SerializeField, Min(0)] private int _maxEnemiesCount;
         [SerializeField, Min(0)] private int _attemptsToGetPoint;
-        
+
         private IEnemyFactory _enemyFactory;
         private GameField _gameField;
-        private Transform _target;
+        private GameObject _target;
         private Bounds _spawnAreaBounds;
+        private int _aliveEnemies;
 
-        public void Construct(IEnemyFactory enemyFactory, Transform player, GameField gameField)
+        public void Construct(IEnemyFactory enemyFactory, GameObject player, GameField gameField)
         {
             _enemyFactory = enemyFactory;
             _gameField = gameField;
             _target = player;
-            
+            _aliveEnemies = 0;
+
             CalculateSpawnArea();
             SpawnRandomEnemies();
         }
@@ -42,19 +42,18 @@ namespace Source.Enemies
 
             for (int i = 0; i < enemiesCount; i++)
             {
-                if (TryGetValidPoint(out Vector3 spawnPoint)) 
-                    SpawnRandomEnemy(spawnPoint, _target, transform);
+                if (TryGetValidPoint(out Vector3 spawnPoint))
+                    SpawnRandomEnemy(spawnPoint, _target.transform, transform);
             }
         }
 
         private void SpawnRandomEnemy(Vector3 spawnPoint, Transform target, Transform parent)
         {
-            Enemy enemy = _enemyFactory.CreateRandomEnemy(spawnPoint, target, parent)
-                ;
+            Enemy enemy = _enemyFactory.CreateRandomEnemy(spawnPoint, target, parent);
             EnemyDeath enemyDeath = enemy.GetComponent<EnemyDeath>();
             enemyDeath.Died += OnEnemyDied;
 
-            s_aliveEnemies++;
+            _aliveEnemies++;
         }
 
         private void CalculateSpawnArea()
@@ -73,12 +72,14 @@ namespace Source.Enemies
         private bool TryGetValidPoint(out Vector3 point)
         {
             point = Vector3.zero;
-            
+
             for (int i = 0; i < _attemptsToGetPoint; i++)
             {
                 point = GetRandomSpawnPoint();
-                int obstacleHits = Physics.OverlapSphereNonAlloc(point, _distanceToObstacle, _obstacleHits, _obstaclesLayerMask);
-                int enemiesHits = Physics.OverlapSphereNonAlloc(point, _distanceToEnemies, _enemiesHits, _enemiesLayerMask);
+                int obstacleHits =
+                    Physics.OverlapSphereNonAlloc(point, _distanceToObstacle, _obstacleHits, _obstaclesLayerMask);
+                int enemiesHits =
+                    Physics.OverlapSphereNonAlloc(point, _distanceToEnemies, _enemiesHits, _enemiesLayerMask);
 
                 if (obstacleHits == 1 && enemiesHits == 0)
                     return true;
@@ -95,10 +96,10 @@ namespace Source.Enemies
         private void OnEnemyDied(EnemyDeath enemy)
         {
             enemy.Died -= OnEnemyDied;
-            
-            s_aliveEnemies--;
-            
-            if (s_aliveEnemies <= 0)
+
+            _aliveEnemies--;
+
+            if (_aliveEnemies <= 0)
                 EventBus.RaiseEvent<IStageClearHandler>(h => h.OnStageCleared());
         }
     }

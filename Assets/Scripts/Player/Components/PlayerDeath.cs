@@ -9,7 +9,7 @@ namespace Source.Player.Components
         [SerializeField] private GameObject _deathVFX;
         [SerializeField] private Transform _deathVFXPoint;
 
-        public event Action<PlayerDeath> Died;
+        public event Action Died;
 
         private void Start() => 
             _health.HealthChanged += OnHealthChanged;
@@ -25,7 +25,7 @@ namespace Source.Player.Components
 
         private void Die()
         {
-            Died?.Invoke(this);
+            Died?.Invoke();
             
             SpawnDeathFx();
             Destroy(gameObject);

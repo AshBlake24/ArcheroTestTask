@@ -1,5 +1,4 @@
 ﻿using Source.Infrastructure.Services;
-using Source.Infrastructure.States;
 using Source.Player.Components;
 using UnityEngine;
 
@@ -10,12 +9,12 @@ namespace Source.Logic
         private const string PlayerTag = "Player";
         
         [SerializeField] private string _levelName;
-        
-        private IGameStateMachine _stateMachine;
+
+        private ISceneLoadingService _sceneLoadingService;
         private bool _isTriggered;
 
         private void Awake() => 
-            _stateMachine = ServiceLocator.Container.Single<IGameStateMachine>();
+            _sceneLoadingService = ServiceLocator.Container.Single<ISceneLoadingService>();
 
         private void OnTriggerEnter(Collider other)
         {
@@ -27,7 +26,7 @@ namespace Source.Logic
             if (player != null)
             {
                 _isTriggered = true;
-                _stateMachine.Enter<LoadLevelState, string>(_levelName);
+                _sceneLoadingService.Load(_levelName);
             }
         }
     }

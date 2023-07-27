@@ -10,5 +10,6 @@
         public const string UIRootPath = "UI/UIRoot";
         public const string CountdownTimer = "UI/CountdownTimer";
         public const string GameConfigPath = "StaticData/GameConfig";
+        public const string GameRestarterPath = "Infrastructure/GameRestarter";
     }
 }

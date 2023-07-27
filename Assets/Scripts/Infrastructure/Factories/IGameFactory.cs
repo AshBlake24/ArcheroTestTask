@@ -10,6 +10,7 @@ namespace Source.Infrastructure.Factories
         GameObject CreatePlayer(GameObject initialPoint);
         void CreateEnemySpawner(GameField gameField);
         void CreateHud();
+        void CreateGameRestarter();
         Timer CreateGameStartTimer();
     }
 }

@@ -46,6 +46,7 @@ namespace Source.Infrastructure.States
             _services.RegisterSingle<IGameStateMachine>(_gameStateMachine);
             _services.RegisterSingle<IInputService>(GetInputService());
             _services.RegisterSingle<IAssetProvider>(new AssetProvider());
+            _services.RegisterSingle<ISceneLoadingService>(new SceneLoadingService(_gameStateMachine));
             
             _services.RegisterSingle<IEnemyBehaviourFactory>(new EnemyBehaviourFactory());
             
@@ -61,6 +62,7 @@ namespace Source.Infrastructure.States
                 _services.Single<IEnemyFactory>(),
                 _services.Single<IInputService>(),
                 _services.Single<IStaticDataService>(),
+                _services.Single<ISceneLoadingService>(),
                 _coroutineRunner));
         }
 

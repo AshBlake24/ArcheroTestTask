@@ -2,6 +2,7 @@
 using Source.Enemies.Factories;
 using Source.Gameplay;
 using Source.Infrastructure.Assets;
+using Source.Infrastructure.Services;
 using Source.Infrastructure.Services.Input;
 using Source.Infrastructure.Services.StaticData;
 using Source.Logic;
@@ -19,16 +20,18 @@ namespace Source.Infrastructure.Factories
         private readonly IInputService _inputService;
         private readonly IStaticDataService _staticDataService;
         private readonly ICoroutineRunner _coroutineRunner;
+        private readonly ISceneLoadingService _sceneLoadingService;
         private GameObject _player;
 
         public GameFactory(IAssetProvider assetProvider, IEnemyFactory enemyFactory, IInputService inputService,
-            IStaticDataService staticDataService, ICoroutineRunner coroutineRunner)
+            IStaticDataService staticDataService, ISceneLoadingService sceneLoadingService, ICoroutineRunner coroutineRunner)
         {
             _assetProvider = assetProvider;
             _enemyFactory = enemyFactory;
             _inputService = inputService;
             _staticDataService = staticDataService;
             _coroutineRunner = coroutineRunner;
+            _sceneLoadingService = sceneLoadingService;
         }
 
         public void CreateHud() => _assetProvider.Instantiate(AssetPath.HudPath);
@@ -49,11 +52,16 @@ namespace Source.Infrastructure.Factories
             EnemySpawner spawner = _assetProvider.Instantiate(AssetPath.EnemySpawner)
                 .GetComponent<EnemySpawner>();
             
-            spawner.Construct(_enemyFactory, _player.transform, gameField);
+            spawner.Construct(_enemyFactory, _player, gameField);
         }
 
         public Timer CreateGameStartTimer() => 
             new Timer(_coroutineRunner, _staticDataService.GameConfig.SecondsBeforeGameStart);
+
+        public void CreateGameRestarter() =>
+            _assetProvider.Instantiate(AssetPath.GameRestarterPath)
+                .GetComponent<GameRestarter>()
+                .Construct(_sceneLoadingService, _staticDataService, _player.GetComponent<PlayerDeath>());
 
         private void ConstructHealthBar(PlayerStaticData playerData)
         {

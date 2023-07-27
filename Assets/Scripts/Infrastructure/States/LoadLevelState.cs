@@ -58,6 +58,7 @@ namespace Source.Infrastructure.States
 
             _gameFactory.CreateHud();
             _gameFactory.CreateEnemySpawner(gameField);
+            _gameFactory.CreateGameRestarter();
             _uiFactory.CreateCountdownTimer(gameStartTimer);
             
             CameraFollow(player.transform);

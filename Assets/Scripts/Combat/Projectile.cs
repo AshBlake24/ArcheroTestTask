@@ -13,6 +13,7 @@ namespace Source.Combat
 
         public void Init(int damage, float force)
         {
+            _rigidbody.velocity = Vector3.zero;
             _damage = damage;
             _force = force;
             _rigidbody.AddForce(transform.forward * _force, ForceMode.Impulse);

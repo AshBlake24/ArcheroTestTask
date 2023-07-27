@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using Source.Combat;
+using UnityEngine;
 
 namespace Source.Player.Data
 {
@@ -10,11 +11,13 @@ namespace Source.Player.Data
         [SerializeField] private float _attackRate;
         [SerializeField] private float _attackForce;
         [SerializeField] private float _movementSpeed;
+        [SerializeField] private Projectile _projectilePrefab;
 
         public int Health => _health;
         public int Damage => _damage;
         public float AttackRate => _attackRate;
         public float AttackForce => _attackForce;
         public float MovementSpeed => _movementSpeed;
+        public Projectile ProjectilePrefab => _projectilePrefab;
     }
 }

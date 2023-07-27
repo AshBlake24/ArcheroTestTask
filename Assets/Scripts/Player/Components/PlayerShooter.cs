@@ -2,6 +2,7 @@
 using Source.Gameplay;
 using Source.Infrastructure.Events;
 using Source.Infrastructure.Services.Input;
+using Source.Utilities;
 using UnityEngine;
 
 namespace Source.Player.Components
@@ -11,17 +12,19 @@ namespace Source.Player.Components
     {
         [SerializeField] private PlayerAim _aim;
         [SerializeField] private Transform _shootPoint;
-        [SerializeField] private Projectile _projectilePrefab;
 
+        private ObjectPool<Projectile> _projectilesPool;
         private IInputService _inputService;
         private float _elapsedTime;
         private float _attackRate;
         private float _attackForce;
         private int _damage;
 
-        public void Construct(IInputService inputService, float attackRate, float attackForce, int damage)
+        public void Construct(IInputService inputService, float attackRate, float attackForce, int damage, 
+            Projectile projectilePrefab)
         {
             enabled = false;
+            _projectilesPool = new ObjectPool<Projectile>(projectilePrefab.gameObject);
             _inputService = inputService;
             _attackRate = attackRate;
             _attackForce = attackForce;
@@ -51,7 +54,9 @@ namespace Source.Player.Components
 
         private void Shoot()
         {
-            Projectile projectile = Instantiate(_projectilePrefab, _shootPoint.position, _shootPoint.rotation);
+            Projectile projectile = _projectilesPool.GetInstance();
+            projectile.transform.SetPositionAndRotation(_shootPoint.position, _shootPoint.rotation);
+            projectile.gameObject.SetActive(true);
             projectile.Init(_damage, _attackForce);
         }
         

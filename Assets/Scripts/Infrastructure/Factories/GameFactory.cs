@@ -73,7 +73,7 @@ namespace Source.Infrastructure.Factories
                 .Construct(_inputService);
 
             _player.GetComponent<PlayerShooter>()
-                .Construct(_inputService, playerData.AttackRate, playerData.AttackForce, playerData.Damage);
+                .Construct(_inputService, playerData.AttackRate, playerData.AttackForce, playerData.Damage, playerData.ProjectilePrefab);
         }
     }
 }

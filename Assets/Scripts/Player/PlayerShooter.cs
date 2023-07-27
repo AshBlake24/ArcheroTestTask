@@ -1,4 +1,6 @@
 ﻿using Source.Combat;
+using Source.Gameplay;
+using Source.Infrastructure.Events;
 using Source.Infrastructure.Services;
 using Source.Infrastructure.Services.Input;
 using UnityEngine;
@@ -6,7 +8,7 @@ using UnityEngine;
 namespace Source.Player
 {
     [RequireComponent(typeof(PlayerAim))]
-    public class PlayerShooter : MonoBehaviour
+    public class PlayerShooter : MonoBehaviour, IStartGameHandler
     {
         [SerializeField] private PlayerAim _aim;
         [SerializeField] private Transform _shootPoint;
@@ -16,10 +18,14 @@ namespace Source.Player
         private IInputService _inputService;
         private float _elapsedTime;
 
-        private void Start()
+        public void Construct(IInputService inputService)
         {
-            _inputService = ServiceLocator.Container.Single<IInputService>();
+            enabled = false;
+            _inputService = inputService;
+            EventBus.Subscribe(this);
         }
+
+        private void OnDestroy() => EventBus.Unsubscribe(this);
 
         private void Update()
         {
@@ -45,5 +51,8 @@ namespace Source.Player
         
         private bool PlayerIsMoving() => 
             _inputService.IsMoving;
+
+        public void OnGameStarted() => 
+            enabled = true;
     }
 }

@@ -1,11 +1,13 @@
-﻿using Source.Enemies;
-using Source.Infrastructure.Services;
+﻿using System;
+using Source.Enemies;
+using Source.Gameplay;
+using Source.Infrastructure.Events;
 using Source.Infrastructure.Services.Input;
 using UnityEngine;
 
 namespace Source.Player
 {
-    public class PlayerAim : MonoBehaviour
+    public class PlayerAim : MonoBehaviour, IStartGameHandler
     {
         private const float SmoothTime = 0.05f;
         
@@ -21,15 +23,14 @@ namespace Source.Player
 
         public bool HasTarget => _closetEnemy != null;
 
-        private void Start()
+        public void Construct(IInputService inputService)
         {
-            _inputService = ServiceLocator.Container.Single<IInputService>();
-            
-            InvokeRepeating(
-                nameof(CheckTargets),
-                time: 0,
-                repeatRate: (1 / _updatesPerSecond));
+            enabled = false;
+            _inputService = inputService;
+            EventBus.Subscribe(this);
         }
+
+        private void OnDestroy() => EventBus.Unsubscribe(this);
 
         private void Update()
         {
@@ -38,7 +39,7 @@ namespace Source.Player
 
             RotateTowardsTarget();
         }
-        
+
         private void RotateTowardsTarget()
         {
             Vector3 direction = (_closetEnemy.transform.position - transform.position).normalized;
@@ -106,5 +107,15 @@ namespace Source.Player
 
         private bool PlayerIsMoving() => 
             _inputService.IsMoving;
+
+        public void OnGameStarted()
+        {
+            enabled = true;
+            
+            InvokeRepeating(
+                nameof(CheckTargets),
+                time: 0,
+                repeatRate: (1 / _updatesPerSecond));
+        }
     }
 }

@@ -1,4 +1,6 @@
 ﻿using System.Collections;
+using Source.Gameplay;
+using Source.Infrastructure.Events;
 using Source.Utilities;
 using TMPro;
 using UnityEngine;
@@ -32,7 +34,7 @@ namespace Source.UI
                 _secondsToStart--;
             }
             
-            
+            EventBus.RaiseEvent<IStartGameHandler>(h => h.OnGameStarted());
         }
     }
 }
